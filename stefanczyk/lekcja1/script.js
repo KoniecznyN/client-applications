@@ -13,7 +13,6 @@ $(document).ready(() => {
       });
       $("#box").on("mouseleave", () => {
         $("#box").css("background", "grey").html(null);
-        console.log("chu");
       });
     } else {
       $("#btn").css("background", "grey").css("border", "none");
