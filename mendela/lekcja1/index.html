@@ -35,7 +35,7 @@
     <p>podpunkt a</p>
     <div class="box">
       <script>
-        const count = 9; //prompt("Podaj liczbę: ");
+        const count = prompt("Podaj liczbę: ");
 
         for (let i = 1; i <= count; ++i) {
           document.write("X");
@@ -72,11 +72,7 @@
       <script>
         for (let i = 0; i < count; ++i) {
           for (let j = 0; j < count; ++j) {
-            if (i == 0) {
-              document.write("X");
-              continue;
-            }
-            if (j == 0 || j == count - 1 - i) {
+            if (i == 0 || j == 0 || j == count - 1 - i) {
               document.write("X");
             } else {
               document.write("&nbsp");
