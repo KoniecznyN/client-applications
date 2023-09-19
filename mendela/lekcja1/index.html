@@ -31,11 +31,69 @@
     </style>
   </head>
   <body>
+    <h2>Zad 1</h2>
+    <div class="box">
+      <script>
+        document.write("Witaj JavaScript");
+        document.write("<br>");
+
+        // for (let i = -111; i <= 111; ++i) {
+        //   document.write(i);
+        //   document.write("<br>");
+        // }
+
+        for (let i = 50; i >= 0; i -= 3) {
+          document.write(i, "&nbsp");
+        }
+
+        document.write("<br>");
+
+        for (let i = 50; i >= 10; --i) {
+          if (i < 40 && i > 20) {
+            continue;
+          } else {
+            document.write(i, "&nbsp");
+          }
+        }
+      </script>
+    </div>
+    <h2>Zad 2</h2>
+    <div class="box">
+      <script>
+        document.write("Wynik w console logach.");
+        console.log("zad1");
+        for (let i = -30; i < 40; ++i) {
+          if ((i > 5 && i < 14) || i % 2 != 0) {
+            continue;
+          } else {
+            console.log(i);
+          }
+        }
+
+        console.log("zad2");
+        for (let i = -20; i < 40; ++i) {
+          if ((i > 2 && i < 13) || i % 2 == 0) {
+            continue;
+          } else {
+            console.log(i);
+          }
+        }
+
+        console.log("zad3");
+        for (let i = -100; i < 41; ++i) {
+          if ((i > -50 && i < 12) || i % 3 != 0) {
+            continue;
+          } else {
+            console.log(i);
+          }
+        }
+      </script>
+    </div>
     <h2>Zad 3</h2>
     <p>podpunkt a</p>
     <div class="box">
       <script>
-        const count = prompt("Podaj liczbę: ");
+        const count = 6; //prompt("Podaj liczbę: ");
 
         for (let i = 1; i <= count; ++i) {
           document.write("X");
