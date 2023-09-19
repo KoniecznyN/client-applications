@@ -32,21 +32,28 @@
   </head>
   <body>
     <h2>Zad 3</h2>
+    <p>podpunkt a</p>
+    <div class="box">
+      <script>
+        const count = 9; //prompt("Podaj liczbę: ");
+
+        for (let i = 1; i <= count; ++i) {
+          document.write("X");
+        }
+      </script>
+    </div>
     <p>podpunkt b</p>
     <div class="box">
       <script>
-        let height = 7; //prompt("Podaj wysokość: ");
-        let width = 10; //prompt("Podaj szerokość: ");
-        a = 5;
-        for (let i = 0; i < width; i++) {
+        for (let i = 0; i < count; ++i) {
           document.write("X ");
         }
 
         document.write("<br>");
 
-        for (let i = 0; i < height - 2; i++) {
-          for (let j = 0; j < width; j++) {
-            if (j == 0 || j == width - 1) {
+        for (let i = 0; i < count - 2; ++i) {
+          for (let j = 0; j < count; ++j) {
+            if (j == 0 || j == count - 1) {
               document.write("X ");
             } else {
               document.write("&nbsp&nbsp");
@@ -55,15 +62,33 @@
           document.write("<br>");
         }
 
-        for (let i = 0; i < width; i++) {
+        for (let i = 0; i < count; ++i) {
           document.write("X ");
+        }
+      </script>
+    </div>
+    <p>podpunkt c</p>
+    <div class="box">
+      <script>
+        for (let i = 0; i < count; ++i) {
+          for (let j = 0; j < count; ++j) {
+            if (i == 0) {
+              document.write("X");
+              continue;
+            }
+            if (j == 0 || j == count - 1 - i) {
+              document.write("X");
+            } else {
+              document.write("&nbsp");
+            }
+          }
+          document.write("<br>");
         }
       </script>
     </div>
     <p>podpunkt d</p>
     <div class="box">
       <script>
-        let count = 6;
         for (let i = 1; i <= count; ++i) {
           for (let j = 1; j <= count; ++j) {
             if (j <= i) {
@@ -81,12 +106,10 @@
       <script>
         for (let i = 0; i <= count; ++i) {
           for (let j = count; j >= 1; --j) {
-            if (j != i + 1) {
+            if (j >= i + 1) {
               document.write("&nbsp");
             } else {
-              for (let h = j; h >= 1; --h) {
-                document.write(h);
-              }
+              document.write(j);
             }
           }
           document.write("<br>");
