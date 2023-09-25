@@ -4,34 +4,33 @@
     padding: 0;
     font-size: 2em;
     font-family: 'Courier New', Courier, monospace;
+    text-align: center;
 }
 
 body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+    height: 1000px;
 }
 
 .leftDiv {
     position: absolute;
-    background-color: grey;
     left: 0;
-    width: 50%;
-    height: 100%;
+    background-color: grey;
+    width: 49vw;
+    height: 100vh;
 }
 
 .middleDiv {
     position: absolute;
+    left: 48vw;
     background-color: blue;
-    width: 10px;
-    height: 100%;
+    width: 2vw;
+    height: 100vh;
 }
 
 .rightDiv {
     position: absolute;
-    background-color: yellow;
     right: 0;
-    width: 50%;
-    height: 100%;
+    background-color: yellow;
+    width: 49vw;
+    height: 100vh;
 }
