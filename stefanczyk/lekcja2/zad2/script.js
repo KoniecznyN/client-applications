@@ -8,12 +8,18 @@ $(document).ready(function () {
 
   $(".middleDiv").on("mousedown", () => {
     $(window).on("mousemove", (e) => {
-      let offsetLeftDiv = $(".leftDiv").offset().left;
-      let rightWidth =
-        $(window).width() - $(".leftDiv").width() - $(".middleDiv").width();
-      $(".leftDiv").css("width", e.clientX - offsetLeftDiv);
+      const windowWidth = $(window).width();
+      const middleWidth = $(".middleDiv").width();
+      const x =
+        e.clientX < 0
+          ? 0
+          : e.clientX > windowWidth - middleWidth / 2
+          ? windowWidth - middleWidth / 2
+          : e.clientX;
+      let rightWidth = windowWidth - $(".leftDiv").width() - middleWidth;
+      $(".leftDiv").css("width", x);
       $(".rightDiv").css("width", rightWidth);
-      $(".middleDiv").css("left", e.clientX - offsetLeftDiv);
+      $(".middleDiv").css("left", x);
     });
     $(".middleDiv").on("mouseup", () => {
       $(window).off("mousemove");

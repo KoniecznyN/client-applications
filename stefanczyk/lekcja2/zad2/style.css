@@ -8,7 +8,7 @@
 }
 
 body {
-    height: 1000px;
+    overflow: hidden;
 }
 
 .leftDiv {
@@ -17,14 +17,16 @@ body {
     background-color: grey;
     width: 49vw;
     height: 100vh;
+    overflow: hidden;
 }
 
 .middleDiv {
     position: absolute;
-    left: 48vw;
+    left: 50vw;
     background-color: blue;
-    width: 2vw;
+    width: 1vw;
     height: 100vh;
+    transform: translateX(-50%) scaleX(2);
 }
 
 .rightDiv {
@@ -33,4 +35,5 @@ body {
     background-color: yellow;
     width: 49vw;
     height: 100vh;
+    overflow: hidden;
 }
