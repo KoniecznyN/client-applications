@@ -1,267 +1,98 @@
+const monthToString = (month) => {
+  switch (month) {
+    case "1":
+      return "Styczeń";
+    case "2":
+      return "Luty";
+    case "3":
+      return "Marzec";
+    case "4":
+      return "Kwiecień";
+    case "5":
+      return "Maj";
+    case "6":
+      return "Czerwiec";
+    case "7":
+      return "Lipiec";
+    case "8":
+      return "Sierpień";
+    case "9":
+      return "Wrzesień";
+    case "10":
+      return "Październik";
+    case "11":
+      return "Listopad";
+    case "12":
+      return "Grudzień";
+  }
+};
+
 const PESEL = (pesel) => {
   if (pesel.length != 11) {
     return document.write("BŁĘDNE DANE");
-  } else {
-    let controlNumber =
-      parseInt(pesel[0], 10) +
-      parseInt(pesel[1], 10) * 3 +
-      parseInt(pesel[2], 10) * 7 +
-      parseInt(pesel[3], 10) * 9 +
-      parseInt(pesel[4], 10) +
-      parseInt(pesel[5], 10) * 3 +
-      parseInt(pesel[6], 10) * 7 +
-      parseInt(pesel[7], 10) * 9 +
-      parseInt(pesel[8], 10) +
-      parseInt(pesel[9], 10) * 3 +
-      parseInt(pesel[10], 10);
-
-    controlNumber = controlNumber.toString();
-
-    if (controlNumber[controlNumber.length - 1] != 0) {
-      return document.write("NIE ISTNIEJE TAKI PESEL");
-    } else {
-      const century = pesel[2];
-      const month = pesel[3];
-      switch (century) {
-        case "8":
-          birthYear = "18" + pesel.slice(0, 2);
-          switch (month) {
-            case "1":
-              birthMonth = "Styczeń";
-              break;
-            case "2":
-              birthMonth = "Luty";
-              break;
-            case "3":
-              birthMonth = "Marzec";
-              break;
-            case "4":
-              birthMonth = "Kwiecień";
-              break;
-            case "5":
-              birthMonth = "Maj";
-              break;
-            case "6":
-              birthMonth = "Czerwiec";
-              break;
-            case "7":
-              birthMonth = "Lipiec";
-              break;
-            case "8":
-              birthMonth = "Sierpień";
-              break;
-            case "9":
-              birthMonth = "Wrzesień";
-              break;
-          }
-          break;
-        case "9":
-          birthYear = "18" + pesel.slice(0, 2);
-          switch (month) {
-            case "0":
-              birthMonth = "Październik";
-              break;
-            case "1":
-              birthMonth = "Listopad";
-              break;
-            case "2":
-              birthMonth = "Grudzień";
-              break;
-          }
-        case "0":
-          birthYear = "19" + pesel.slice(0, 2);
-          switch (month) {
-            case "1":
-              birthMonth = "Styczeń";
-              break;
-            case "2":
-              birthMonth = "Luty";
-              break;
-            case "3":
-              birthMonth = "Marzec";
-              break;
-            case "4":
-              birthMonth = "Kwiecień";
-              break;
-            case "5":
-              birthMonth = "Maj";
-              break;
-            case "6":
-              birthMonth = "Czerwiec";
-              break;
-            case "7":
-              birthMonth = "Lipiec";
-              break;
-            case "8":
-              birthMonth = "Sierpień";
-              break;
-            case "9":
-              birthMonth = "Wrzesień";
-              break;
-          }
-          break;
-        case "1":
-          birthYear = "19" + pesel.slice(0, 2);
-          switch (month) {
-            case "0":
-              birthMonth = "Październik";
-              break;
-            case "1":
-              birthMonth = "Listopad";
-              break;
-            case "2":
-              birthMonth = "Grudzień";
-              break;
-          }
-        case "2":
-          birthYear = "20" + pesel.slice(0, 2);
-          switch (month) {
-            case "1":
-              birthMonth = "Styczeń";
-              break;
-            case "2":
-              birthMonth = "Luty";
-              break;
-            case "3":
-              birthMonth = "Marzec";
-              break;
-            case "4":
-              birthMonth = "Kwiecień";
-              break;
-            case "5":
-              birthMonth = "Maj";
-              break;
-            case "6":
-              birthMonth = "Czerwiec";
-              break;
-            case "7":
-              birthMonth = "Lipiec";
-              break;
-            case "8":
-              birthMonth = "Sierpień";
-              break;
-            case "9":
-              birthMonth = "Wrzesień";
-              break;
-          }
-          break;
-        case "3":
-          birthYear = "20" + pesel.slice(0, 2);
-          switch (month) {
-            case "0":
-              birthMonth = "Październik";
-              break;
-            case "1":
-              birthMonth = "Listopad";
-              break;
-            case "2":
-              birthMonth = "Grudzień";
-              break;
-          }
-        case "4":
-          birthYear = "21" + pesel.slice(0, 2);
-          switch (month) {
-            case "1":
-              birthMonth = "Styczeń";
-              break;
-            case "2":
-              birthMonth = "Luty";
-              break;
-            case "3":
-              birthMonth = "Marzec";
-              break;
-            case "4":
-              birthMonth = "Kwiecień";
-              break;
-            case "5":
-              birthMonth = "Maj";
-              break;
-            case "6":
-              birthMonth = "Czerwiec";
-              break;
-            case "7":
-              birthMonth = "Lipiec";
-              break;
-            case "8":
-              birthMonth = "Sierpień";
-              break;
-            case "9":
-              birthMonth = "Wrzesień";
-              break;
-          }
-          break;
-        case "5":
-          birthYear = "21" + pesel.slice(0, 2);
-          switch (month) {
-            case "0":
-              birthMonth = "Październik";
-              break;
-            case "1":
-              birthMonth = "Listopad";
-              break;
-            case "2":
-              birthMonth = "Grudzień";
-              break;
-          }
-        case "6":
-          birthYear = "2" + pesel.slice(0, 2);
-          switch (month) {
-            case "1":
-              birthMonth = "Styczeń";
-              break;
-            case "2":
-              birthMonth = "Luty";
-              break;
-            case "3":
-              birthMonth = "Marzec";
-              break;
-            case "4":
-              birthMonth = "Kwiecień";
-              break;
-            case "5":
-              birthMonth = "Maj";
-              break;
-            case "6":
-              birthMonth = "Czerwiec";
-              break;
-            case "7":
-              birthMonth = "Lipiec";
-              break;
-            case "8":
-              birthMonth = "Sierpień";
-              break;
-            case "9":
-              birthMonth = "Wrzesień";
-              break;
-          }
-          break;
-        case "7":
-          birthYear = "22" + pesel.slice(0, 2);
-          switch (month) {
-            case "0":
-              birthMonth = "Październik";
-              break;
-            case "1":
-              birthMonth = "Listopad";
-              break;
-            case "2":
-              birthMonth = "Grudzień";
-              break;
-          }
-      }
-      let genderNumber = parseInt(pesel[9], 10);
-      let gender = "";
-      if (genderNumber % 2 == 0) {
-        gender = "Płeć: Kobieta";
-      } else {
-        gender = "Płeć: Mężczyzna";
-      }
-
-      const birthDay = pesel[4] + pesel[5];
-      const date = `Urodzony: ${birthYear} ${birthMonth} ${birthDay}`;
-      document.write(date, "<br>", gender);
-    }
   }
+
+  const weights = [1, 3, 7, 9, 1, 3, 7, 9, 1, 3, 1];
+  const controlNumber = weights.reduce((acc, weight, index) => {
+    return acc + weight * parseInt(pesel[index]);
+  }, 0);
+
+  if (controlNumber % 10 != 0) {
+    return document.write("NIE ISTNIEJE TAKI PESEL");
+  }
+
+  const century = pesel[2];
+  const month = pesel[3];
+
+  switch (century) {
+    case "8":
+      birthYear = "18" + pesel.slice(0, 2);
+      birthMonth = monthToString(month);
+      break;
+    case "9":
+      birthYear = "18" + pesel.slice(0, 2);
+      birthMonth = monthToString(`1${month}`);
+      break;
+    case "0":
+      birthYear = "19" + pesel.slice(0, 2);
+      birthMonth = monthToString(month);
+      break;
+    case "1":
+      birthYear = "19" + pesel.slice(0, 2);
+      birthMonth = monthToString(`1${month}`);
+      break;
+    case "2":
+      birthYear = "20" + pesel.slice(0, 2);
+      birthMonth = monthToString(month);
+      break;
+    case "3":
+      birthYear = "20" + pesel.slice(0, 2);
+      birthMonth = monthToString(`1${month}`);
+      break;
+    case "4":
+      birthYear = "21" + pesel.slice(0, 2);
+      birthMonth = monthToString(month);
+      break;
+    case "5":
+      birthYear = "21" + pesel.slice(0, 2);
+      birthMonth = monthToString(`1${month}`);
+      break;
+    case "6":
+      birthYear = "22" + pesel.slice(0, 2);
+      birthMonth = monthToString(month);
+      break;
+    case "7":
+      birthYear = "22" + pesel.slice(0, 2);
+      birthMonth = monthToString(`1${month}`);
+      break;
+  }
+
+  const genderNumber = parseInt(pesel[9]);
+  const gender = genderNumber % 2 === 0 ? "Kobieta" : "Mężczyzna";
+
+  const birthDay = pesel[4] + pesel[5];
+  const date = `Urodzony: ${birthYear} ${birthMonth} ${birthDay}`;
+  document.write(date, "<br>", `Płeć: ${gender}`);
 };
 
 const pesel = prompt("Podaj pesel");
