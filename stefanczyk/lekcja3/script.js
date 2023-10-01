@@ -4,6 +4,7 @@ $(document).ready(function () {
   let playerOne = $("<div>").addClass("playerOne");
   let playerTwo = $("<div>").addClass("playerTwo");
   $(".main").append(playerOne).append(playerTwo);
+
   for (let i = 0; i < count; ++i) {
     for (let j = 0; j < count; ++j) {
       let box = $("<div>").addClass("box");
