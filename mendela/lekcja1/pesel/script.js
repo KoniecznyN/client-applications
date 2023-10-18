@@ -27,7 +27,7 @@ const monthToString = (month) => {
   }
 };
 
-const PESEL = (pesel) => {
+function PESEL(pesel) {
   if (pesel.length != 11) {
     return document.write("BŁĘDNE DANE");
   }
@@ -93,7 +93,7 @@ const PESEL = (pesel) => {
   const birthDay = pesel[4] + pesel[5];
   const date = `Urodzony: ${birthYear} ${birthMonth} ${birthDay}`;
   document.write(date, "<br>", `Płeć: ${gender}`);
-};
+}
 
 const pesel = prompt("Podaj pesel");
 PESEL(pesel);
