@@ -13,15 +13,15 @@ function DNA(dna) {
     dnaArrayB.push(element.replace(/[TACG]/g, (m) => charsDnaArrayB[m]));
   });
 
+  let dnaStats = dnaArray;
+
   dnaArray = dnaArray.join();
   dnaArrayB = dnaArrayB.join();
 
   dnaArray = dnaArray.replace(/ATG/g, '<span class="atg">ATG</span>');
-  dnaArrayB = dnaArrayB.replace(/ATG/g, '<span class="atg">ATG</span>');
-
-  // dnaArray = dnaArray.replace(/TAA/g, '<span class="yellow">TAA</span>');
-  // dnaArray = dnaArray.replace(/TAG/g, '<span class="yellow">TAG</span>');
-  // dnaArray = dnaArray.replace(/TGA/g, '<span class="yellow">TGA</span>');
+  dnaArray = dnaArray.replace(/TAA/g, '<span class="yellow">TAA</span>');
+  dnaArray = dnaArray.replace(/TAG/g, '<span class="yellow">TAG</span>');
+  dnaArray = dnaArray.replace(/TGA/g, '<span class="yellow">TGA</span>');
 
   dnaArray = dnaArray.replaceAll(",", " ");
   dnaArrayB = dnaArrayB.replaceAll(",", " ");
