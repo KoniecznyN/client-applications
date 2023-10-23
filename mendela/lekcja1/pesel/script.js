@@ -1,32 +1,3 @@
-const monthToString = (month) => {
-  switch (month) {
-    case "1":
-      return "Styczeń";
-    case "2":
-      return "Luty";
-    case "3":
-      return "Marzec";
-    case "4":
-      return "Kwiecień";
-    case "5":
-      return "Maj";
-    case "6":
-      return "Czerwiec";
-    case "7":
-      return "Lipiec";
-    case "8":
-      return "Sierpień";
-    case "9":
-      return "Wrzesień";
-    case "10":
-      return "Październik";
-    case "11":
-      return "Listopad";
-    case "12":
-      return "Grudzień";
-  }
-};
-
 function PESEL(pesel) {
   if (pesel.length != 11) {
     return document.write("BŁĘDNE DANE");
@@ -47,43 +18,43 @@ function PESEL(pesel) {
   switch (century) {
     case "8":
       birthYear = "18" + pesel.slice(0, 2);
-      birthMonth = monthToString(month);
+      birthMonth = `0${month}`;
       break;
     case "9":
       birthYear = "18" + pesel.slice(0, 2);
-      birthMonth = monthToString(`1${month}`);
+      birthMonth = `1${month}`;
       break;
     case "0":
       birthYear = "19" + pesel.slice(0, 2);
-      birthMonth = monthToString(month);
+      birthMonth = `0${month}`;
       break;
     case "1":
       birthYear = "19" + pesel.slice(0, 2);
-      birthMonth = monthToString(`1${month}`);
+      birthMonth = `1${month}`;
       break;
     case "2":
       birthYear = "20" + pesel.slice(0, 2);
-      birthMonth = monthToString(month);
+      birthMonth = `0${month}`;
       break;
     case "3":
       birthYear = "20" + pesel.slice(0, 2);
-      birthMonth = monthToString(`1${month}`);
+      birthMonth = `1${month}`;
       break;
     case "4":
       birthYear = "21" + pesel.slice(0, 2);
-      birthMonth = monthToString(month);
+      birthMonth = `0${month}`;
       break;
     case "5":
       birthYear = "21" + pesel.slice(0, 2);
-      birthMonth = monthToString(`1${month}`);
+      birthMonth = `1${month}`;
       break;
     case "6":
       birthYear = "22" + pesel.slice(0, 2);
-      birthMonth = monthToString(month);
+      birthMonth = `0${month}`;
       break;
     case "7":
       birthYear = "22" + pesel.slice(0, 2);
-      birthMonth = monthToString(`1${month}`);
+      birthMonth = `1${month}`;
       break;
   }
 
@@ -91,7 +62,7 @@ function PESEL(pesel) {
   const gender = genderNumber % 2 === 0 ? "Kobieta" : "Mężczyzna";
 
   const birthDay = pesel[4] + pesel[5];
-  const date = `Urodzony: ${birthYear} ${birthMonth} ${birthDay}`;
+  const date = `Urodzony:  ${birthDay}.${birthMonth}.${birthYear} `;
   document.write(date, "<br>", `Płeć: ${gender}`);
 }
 
