@@ -93,9 +93,9 @@
     <p>podpunkt a</p>
     <div class="box">
       <script>
-        const count = 6; //prompt("Podaj liczbę: ");
+        let count = 5; //prompt("Podaj liczbę: ");
 
-        for (let i = 1; i <= count; ++i) {
+        for (let i = 0; i < count; ++i) {
           document.write("X");
         }
       </script>
@@ -169,6 +169,50 @@
           document.write("<br>");
         }
       </script>
+    </div>
+    <p>podpunkt f</p>
+    <div class="box">
+      <script>
+        let j = 1;
+        for (i = 1; i <= count; ++i) {
+          j *= i;
+        }
+        document.write(j);
+      </script>
+    </div>
+    <p>podpunkt g</p>
+    <div class="box">
+      <script>
+        j = 0;
+        for (let i = 0; i <= count; ++i) {
+          j += i;
+        }
+        document.write(j);
+      </script>
+    </div>
+    <p>podpunkt h</p>
+    <div class="box">
+      <script>
+        function isPrime(number) {
+          let isPrime = true;
+          if (number == 1) {
+            return "1 to nie jest liczba pierwsza";
+          } else if (number > 1) {
+            for (let i = 2; i < number; ++i) {
+              if (number % i == 0) {
+                isPrime = false;
+                break;
+              }
+            }
+          }
+          return isPrime;
+        }
+        document.write(isPrime(count));
+      </script>
+    </div>
+    <p>podpunkt i</p>
+    <div class="box">
+      <script></script>
     </div>
   </body>
 </html>

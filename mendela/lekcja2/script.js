@@ -2,6 +2,7 @@ function DNA(dna) {
   let dnaA = "";
   let dnaArray = [];
   let dnaArrayB = [];
+
   let charsDnaArrayB = { A: "T", T: "A", C: "G", G: "C" };
 
   for (let i = 0; i < dna.length; i += 3) {
@@ -9,11 +10,28 @@ function DNA(dna) {
     dnaArray.push(dnaA);
   }
 
+  console.log(dnaArray);
+
+  let dnaStats = [];
+  for (let i = 0; i < dnaArray.length; ++i) {
+    let counter = 0;
+    for (let j = 0; j < dnaArray.length; ++j) {
+      if (dnaArray[i] == dnaArray[j]) {
+        counter += 1;
+      }
+      if (j == dnaArray.length - 1) {
+        let dnaStatsElement = `${dnaArray[i]} - ${counter}`;
+        dnaStats.push(dnaStatsElement);
+      }
+    }
+  }
+
+  console.log(dnaStats);
+  console.log(dnaStats[2]);
+
   dnaArray.forEach((element) => {
     dnaArrayB.push(element.replace(/[TACG]/g, (m) => charsDnaArrayB[m]));
   });
-
-  let dnaStats = dnaArray;
 
   dnaArray = dnaArray.join();
   dnaArrayB = dnaArrayB.join();
