@@ -1,19 +1,36 @@
 function DNA(dna) {
-  let dnaA = "";
-  let dnaArray = [];
-  let dnaArrayB = [];
-  let charsDnaArrayB = { A: "T", T: "A", C: "G", G: "C" };
-
+  let temp = "";
   dna = dna.replaceAll(/[^a-z]/gi, "");
 
-  for (let i = 0; i < dna.length; i += 3) {
-    dnaA = dna.slice(i, i + 3).toUpperCase();
-    dnaArray.push(dnaA);
+  let dnaComplementary = "";
+  for (let i = 0; i < dna.length; ++i) {
+    switch (dna[i]) {
+      case "a":
+        dnaComplementary += "t";
+        break;
+      case "t":
+        dnaComplementary += "a";
+        break;
+      case "c":
+        dnaComplementary += "g";
+        break;
+      case "g":
+        dnaComplementary += "c";
+        break;
+    }
   }
 
-  dnaArray.forEach((element) => {
-    dnaArrayB.push(element.replace(/[TACG]/g, (n) => charsDnaArrayB[n]));
-  });
+  let dnaArray = [];
+  for (let i = 0; i < dna.length; i += 3) {
+    temp = dna.slice(i, i + 3).toUpperCase();
+    dnaArray.push(temp);
+  }
+
+  let dnaArrayComplementary = [];
+  for (let i = 0; i < dnaComplementary.length; i += 3) {
+    temp = dnaComplementary.slice(i, i + 3).toUpperCase();
+    dnaArrayComplementary.push(temp);
+  }
 
   let dnaStats = [];
   for (let i = 0; i < dnaArray.length; ++i) {
@@ -45,7 +62,7 @@ function DNA(dna) {
   dnaStatsA.sort((a, b) => (a.count < b.count ? 1 : -1));
 
   dnaArray = dnaArray.join();
-  dnaArrayB = dnaArrayB.join();
+  dnaArrayComplementary = dnaArrayComplementary.join();
 
   dnaArray = dnaArray.replace(/ATG/g, '<span class="atg">ATG</span>');
   dnaArray = dnaArray.replace(/TAA/g, '<span class="yellow">TAA</span>');
@@ -53,9 +70,11 @@ function DNA(dna) {
   dnaArray = dnaArray.replace(/TGA/g, '<span class="yellow">TGA</span>');
 
   dnaArray = dnaArray.replaceAll(",", " ");
-  dnaArrayB = dnaArrayB.replaceAll(",", " ");
+  dnaArrayComplementary = dnaArrayComplementary.replaceAll(",", " ");
 
-  document.write(`${dnaArray} <br><br> ${dnaArrayB}`);
+  document.write(
+    `<p>${dna} <br> ${dnaArray} <br><br> ${dnaArrayComplementary} <br> ${dnaComplementary}</p>`
+  );
 
   let color = "";
   for (let i = 0; i < dnaStatsA.length; ++i) {
