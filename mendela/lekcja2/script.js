@@ -73,7 +73,7 @@ function DNA(dna) {
   dnaArrayComplementary = dnaArrayComplementary.replaceAll(",", " ");
 
   document.write(
-    `<p>${dna} <br> ${dnaArray} <br><br> ${dnaArrayComplementary} <br> ${dnaComplementary}</p>`
+    `<p style="overflow-wrap: break-word">${dna} <br> ${dnaArray} <br><br> ${dnaArrayComplementary} <br> ${dnaComplementary}</p>`
   );
 
   let color = "";
