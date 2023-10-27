@@ -28,6 +28,26 @@
       .box {
         margin: 20px;
       }
+
+      td {
+        width: 20px;
+        height: 20px;
+        padding: 5px;
+        text-align: center;
+        font-size: 1em;
+      }
+
+      .blue {
+        background-color: cornflowerblue;
+      }
+
+      .yellow {
+        background-color: goldenrod;
+      }
+
+      .white {
+        background-color: white;
+      }
     </style>
   </head>
   <body>
@@ -93,7 +113,7 @@
     <p>podpunkt a</p>
     <div class="box">
       <script>
-        let count = 5; //prompt("Podaj liczbę: ");
+        let count = 9; //prompt("Podaj liczbę: ");
 
         for (let i = 0; i < count; ++i) {
           document.write("X");
@@ -212,7 +232,29 @@
     </div>
     <p>podpunkt i</p>
     <div class="box">
-      <script></script>
+      <script>
+        document.write("<table>");
+        for (let i = 0; i <= count; ++i) {
+          if (i == 0) {
+            document.write(`<tr><td></td>`);
+          } else {
+            document.write(`<tr><td class="blue">${i}</td>`);
+          }
+          for (let j = 1; j <= count; ++j) {
+            if (i == 0) {
+              document.write(`<td class="blue">${j}</td>`);
+              continue;
+            }
+            if (i == j) {
+              document.write(`<td class="white">${i * j}</td>`);
+              continue;
+            }
+            document.write(`<td class="yellow">${i * j}</td>`);
+          }
+          document.write(`</tr>`);
+        }
+        document.write("</table>");
+      </script>
     </div>
   </body>
 </html>
