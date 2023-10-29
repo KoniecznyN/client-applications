@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Zad 3</title>
+    <style>
+      * {
+        font-family: monospace;
+      }
+    </style>
+  </head>
+  <body>
+    <textarea id="text" cols="20" rows="10"></textarea>
+    <textarea id="" cols="20" rows="10"></textarea>
+    <script>
+      function toArray(string) {
+        let array = [];
+        for (let i = 0; i < string.length; ++i) {
+          array.push(string[i]);
+        }
+
+        return array;
+      }
+
+      let text = document.getElementById("text");
+      const cols = document.getElementById("text").cols;
+      const rows = document.getElementById("text").rows;
+      const chance = 0.1;
+      const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+
+      let textArray = [];
+      for (let i = 0; i < cols * rows; ++i) {
+        if (Math.random() <= chance) {
+          randomCharacter = Math.floor(Math.random() * characters.length);
+          textArray.push(characters.charAt(randomCharacter));
+        } else {
+          textArray.push(" ");
+        }
+      }
+
+      console.log(textArray);
+      textArray = textArray.join("");
+      console.log(textArray);
+
+      window.setInterval(() => {
+        textArray = toArray(textArray);
+
+        for (let i = 0; i <= cols; ++i) {
+          removedChar = textArray.shift();
+          console.log(textArray);
+        }
+
+        console.log(textArray);
+        textArray = textArray.join("");
+        text.value = textArray;
+      }, 4000);
+    </script>
+  </body>
+</html>
