@@ -7,12 +7,17 @@
     <style></style>
   </head>
   <body>
-    <input
-      type="text"
-      name=""
-      id="text"
-      value="Ciekawe czy uda ci się to zrobić"
-    />
-    <script></script>
+    <input type="text" id="text" value="Ciekawe czy uda ci się to zrobić... " />
+    <script>
+      const input = document.getElementById("text");
+      let inputValue = input.value;
+
+      window.setInterval(() => {
+        letter = inputValue[0];
+        inputValue = inputValue.substring(1);
+        inputValue += letter;
+        input.value = inputValue;
+      }, 100);
+    </script>
   </body>
 </html>
