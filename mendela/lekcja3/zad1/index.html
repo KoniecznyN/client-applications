@@ -15,6 +15,20 @@
     <img src="image.png" alt="" id="deathnote" />
     <script>
       const image = document.getElementById("deathnote");
+      let width = image.clientWidth;
+      let helper = true;
+
+      window.setInterval(() => {
+        if (helper) {
+          width -= 5;
+          image.style.width = `${width}px`;
+          if (width == 300) helper = false;
+        } else {
+          width += 5;
+          image.style.width = `${width}px`;
+          if (width == 500) helper = true;
+        }
+      }, 25);
     </script>
   </body>
 </html>
