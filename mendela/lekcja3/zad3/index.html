@@ -11,50 +11,47 @@
     </style>
   </head>
   <body>
-    <textarea id="text" cols="20" rows="10"></textarea>
-    <textarea id="" cols="20" rows="10"></textarea>
+    <textarea id="text" cols="30" rows="10"></textarea>
     <script>
-      function toArray(string) {
-        let array = [];
-        for (let i = 0; i < string.length; ++i) {
-          array.push(string[i]);
-        }
-
-        return array;
-      }
-
-      let text = document.getElementById("text");
+      const text = document.getElementById("text");
       const cols = document.getElementById("text").cols;
       const rows = document.getElementById("text").rows;
-      const chance = 0.1;
       const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
-      let textArray = [];
-      for (let i = 0; i < cols * rows; ++i) {
-        if (Math.random() <= chance) {
-          randomCharacter = Math.floor(Math.random() * characters.length);
-          textArray.push(characters.charAt(randomCharacter));
-        } else {
-          textArray.push(" ");
-        }
+      let dupa = "";
+      for (let i = 0; i < cols; ++i) {
+        dupa += " ";
       }
 
-      console.log(textArray);
-      textArray = textArray.join("");
-      console.log(textArray);
+      function randomArray(cols, rows, characters) {
+        let textArray = [];
+        for (let i = 0; i < rows; ++i) {
+          let temp = "";
+          for (let j = 0; j < cols; ++j) {
+            if (Math.random() <= 0.05) {
+              randomCharacter = Math.floor(Math.random() * characters.length);
+              temp += characters.charAt(randomCharacter);
+            } else {
+              temp += " ";
+            }
+          }
+          temp += "\n";
+          textArray.push(temp);
+        }
+        return textArray;
+      }
+
+      let textArray = randomArray(cols, rows, characters);
+      textString = textArray.join("\n");
+      text.value = textString;
 
       window.setInterval(() => {
-        textArray = toArray(textArray);
-
-        for (let i = 0; i <= cols; ++i) {
-          removedChar = textArray.shift();
-          console.log(textArray);
-        }
-
-        console.log(textArray);
-        textArray = textArray.join("");
-        text.value = textArray;
-      }, 4000);
+        textArray = textString.split("\n");
+        textArray.pop();
+        textArray.unshift(dupa);
+        textString = textArray.join("\n");
+        text.value = textString;
+      }, 1000);
     </script>
   </body>
 </html>
