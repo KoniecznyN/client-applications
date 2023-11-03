@@ -11,13 +11,8 @@
     </style>
   </head>
   <body>
-    <textarea id="text" cols="50" rows="20"></textarea>
+    <textarea id="text" cols="10" rows="20"></textarea>
     <script>
-      const text = document.getElementById("text");
-      const cols = document.getElementById("text").cols;
-      const rows = document.getElementById("text").rows;
-      const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-
       function randomArray(cols, rows, characters) {
         let textArray = [];
         for (let i = 0; i < rows; ++i) {
@@ -30,36 +25,37 @@
               temp += " ";
             }
           }
-          // temp += "\n";
+          temp += "\n";
           textArray.push(temp);
         }
         return textArray;
       }
 
-      let emptyArray = [];
-      for (let i = 0; i < rows; ++i) {
-        let temp = "";
-        for (let j = 0; j < cols; ++j) {
-          temp += " ";
-        }
-        // temp += "\n";
-        emptyArray.push(temp);
-      }
+      const text = document.getElementById("text");
+      const cols = document.getElementById("text").cols;
+      const rows = document.getElementById("text").rows;
+      const emptySpace = " ".repeat(cols);
+      const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
       let textArray = randomArray(cols, rows, characters);
       let bool = false;
 
+      let emptyArray = [];
+      // for (let i = 0; i < textArray.length; ++i) {
+      //   emptyArray.push(emptySpace);
+      // }
+
       window.setInterval(() => {
-        for (let i = 0; i < emptyArray.length; ++i) {
-          bool = emptyArray[i] === undefined;
-        }
-        if (textArray.length == 0 && bool) {
+        if (textArray.length === 0) {
           textArray = randomArray(cols, rows, characters);
         }
-        emptyArray.pop();
-        emptyArray.unshift(textArray.pop());
+        temp = textArray.pop();
+        // console.log(textArray);
+        emptyArray.unshift(temp);
+        console.log(emptyArray);
         text.value = emptyArray.join("\n");
-      }, 200);
+        console.log(emptyArray.join("\n").length);
+      }, 4000);
     </script>
   </body>
 </html>
