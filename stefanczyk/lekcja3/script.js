@@ -12,11 +12,10 @@ $(document).ready(function () {
       $(box)
         .css("left", i * 50)
         .css("top", j * 50)
-        .html(`${i}-${j}`)
+        .html(`${j}-${i}`)
         .on("click", function () {
           $(box).css("background-color", "yellow");
           tab.push({ x: $(this).css("left"), y: $(this).css("top") });
-          console.log(tab);
         });
     }
   }
@@ -37,6 +36,7 @@ $(document).ready(function () {
   let helpyy = true;
   let helpyOne = 1;
   let helpyTwo = 2;
+
   $("#move").on("click", function () {
     if (helpyy) {
       playerOneX = tab[helpyOne].x;
