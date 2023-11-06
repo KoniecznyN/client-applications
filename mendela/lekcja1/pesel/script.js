@@ -4,9 +4,11 @@ function PESEL(pesel) {
   }
 
   const weights = [1, 3, 7, 9, 1, 3, 7, 9, 1, 3, 1];
-  const controlNumber = weights.reduce((acc, weight, index) => {
-    return acc + weight * parseInt(pesel[index]);
-  }, 0);
+  let controlNumber = 0;
+
+  for (let i = 0; i < pesel.length; ++i) {
+    controlNumber += pesel[i] * weights[i];
+  }
 
   if (controlNumber % 10 != 0) {
     return document.write("NIE ISTNIEJE TAKI PESEL");
