@@ -21,7 +21,8 @@ function reversedToggle() {
   win.style.display = "none";
   lost.style.display = "none";
   header.innerText = "MEMORY GAME";
-  bool = true;
+  tileClicked = true;
+  ifInterval = false;
   counter = 0;
   sources = [];
   refresh(defaultBoard);
@@ -44,55 +45,63 @@ function refresh(arr) {
   }
 }
 
-let bool = true;
+let tileClicked = true;
 let counter = 0;
-let gameStarted = false;
+let ifInterval = false;
+
 async function tile(number, arr) {
   let tile = document.querySelectorAll("#memoryTile");
-  if (bool && tile[number - 1].src.includes("images/0.jpg")) {
-    let temp = (tile[number - 1].src = `images/${arr[number - 1]}.jpg`);
+  if (!ifInterval) {
+    startInterval(time);
+  }
+  if (tileClicked && tile[number - 1].src.includes("images/0.jpg")) {
+    let tileSource = (tile[number - 1].src = `images/${arr[number - 1]}.jpg`);
     if (
       (sources.length == 1 && sources[0][1] != number) ||
       sources.length == 0
     ) {
-      sources.push([temp, number]);
+      sources.push([tileSource, number]);
     }
     if (sources.length >= 2) {
       if (sources[0][0] == sources[1][0]) {
         counter++;
-        if (counter == 8) {
-          await new Promise((resolve) => setTimeout(resolve, 100));
-          cards.style.display = "none";
-          win.style.display = "flex";
-        }
         sources = [];
       } else {
-        bool = false;
+        tileClicked = false;
         await new Promise((resolve) => setTimeout(resolve, 1000));
         tile[sources[0][1] - 1].src = `images/0.jpg`;
         tile[sources[1][1] - 1].src = `images/0.jpg`;
         sources = [];
-        bool = true;
+        tileClicked = true;
       }
     }
   }
 }
 
-function mainGame(time) {
-  let playTime = time;
-  let visiblePlayTime = parseFloat(time);
-
-  refresh(defaultBoard);
-  header.innerText = time + "[s]";
+function startInterval(time) {
+  ifInterval = true;
   let temp = window.setInterval(() => {
-    playTime -= 1;
-    // header.innerText = playTime;
-    console.log(playTime);
-    if (playTime == 0) {
+    time -= 1;
+    // header.innerText = time;
+    console.log(time);
+    if (time == 0) {
       cards.style.display = "none";
       lost.style.display = "flex";
       // lostButton.style.display = "block";
       window.clearInterval(temp);
     }
+    if (counter == 8) {
+      cards.style.display = "none";
+      win.style.display = "flex";
+      window.clearInterval(temp);
+    }
   }, 1000);
+}
+
+let time = 0;
+
+function mainGame(gameTime) {
+  time = gameTime;
+  refresh(defaultBoard);
+  header.innerText = time + "[s]";
 }
