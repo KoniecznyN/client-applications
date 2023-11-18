@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
     <title>Memory</title>
-    <script src="script.js"></script>
   </head>
-  <body onload="init()">
+  <body>
+    <h1 id="h1">MEMORY GAME</h1>
     <img src="images/czolowa.png" alt="main" id="main" usemap="#image-map" />
 
     <map name="image-map" id="main">
@@ -18,7 +18,7 @@
         href="#"
         coords="69,153,44,40,334,61"
         shape="poly"
-        onclick="mainGame(), toggle()"
+        onclick="mainGame(1), toggle()"
       />
       <area
         target=""
@@ -27,7 +27,7 @@
         href="#"
         coords="84,220,339,108,364,234"
         shape="poly"
-        onclick="mainGame(), toggle()"
+        onclick="mainGame(60), toggle()"
       />
       <area
         target=""
@@ -36,26 +36,40 @@
         href="#"
         coords="95,270,114,380,368,299"
         shape="poly"
-        onclick="mainGame(), toggle()"
+        onclick="mainGame(90), toggle()"
       />
     </map>
     <div id="cards">
-      <img src="images/1.jpg" alt="1" id="memoryTile" />
-      <img src="images/1.jpg" alt="1" id="memoryTile" />
-      <img src="images/2.jpg" alt="2" id="memoryTile" />
-      <img src="images/2.jpg" alt="2" id="memoryTile" />
-      <img src="images/3.jpg" alt="3" id="memoryTile" />
-      <img src="images/3.jpg" alt="3" id="memoryTile" />
-      <img src="images/4.jpg" alt="4" id="memoryTile" />
-      <img src="images/4.jpg" alt="4" id="memoryTile" />
-      <img src="images/5.jpg" alt="5" id="memoryTile" />
-      <img src="images/5.jpg" alt="5" id="memoryTile" />
-      <img src="images/6.jpg" alt="6" id="memoryTile" />
-      <img src="images/6.jpg" alt="6" id="memoryTile" />
-      <img src="images/7.jpg" alt="7" id="memoryTile" />
-      <img src="images/7.jpg" alt="7" id="memoryTile" />
-      <img src="images/8.jpg" alt="8" id="memoryTile" />
-      <img src="images/8.jpg" alt="8" id="memoryTile" />
+      <img
+        src="images/1.jpg"
+        alt="1"
+        id="memoryTile"
+        onclick="tile(1, arr), gowno = true"
+      />
+      <img src="images/1.jpg" alt="1" id="memoryTile" onclick="tile(2, arr)" />
+      <img src="images/2.jpg" alt="2" id="memoryTile" onclick="tile(3, arr)" />
+      <img src="images/2.jpg" alt="2" id="memoryTile" onclick="tile(4, arr)" />
+      <img src="images/3.jpg" alt="3" id="memoryTile" onclick="tile(5, arr)" />
+      <img src="images/3.jpg" alt="3" id="memoryTile" onclick="tile(6, arr)" />
+      <img src="images/4.jpg" alt="4" id="memoryTile" onclick="tile(7, arr)" />
+      <img src="images/4.jpg" alt="4" id="memoryTile" onclick="tile(8, arr)" />
+      <img src="images/5.jpg" alt="5" id="memoryTile" onclick="tile(9, arr)" />
+      <img src="images/5.jpg" alt="5" id="memoryTile" onclick="tile(10, arr)" />
+      <img src="images/6.jpg" alt="6" id="memoryTile" onclick="tile(11, arr)" />
+      <img src="images/6.jpg" alt="6" id="memoryTile" onclick="tile(12, arr)" />
+      <img src="images/7.jpg" alt="7" id="memoryTile" onclick="tile(13, arr)" />
+      <img src="images/7.jpg" alt="7" id="memoryTile" onclick="tile(14, arr)" />
+      <img src="images/8.jpg" alt="8" id="memoryTile" onclick="tile(15, arr)" />
+      <img src="images/8.jpg" alt="8" id="memoryTile" onclick="tile(16, arr)" />
     </div>
+    <div id="win">
+      WYGRAŁEŚ
+      <button id="winButton" onclick="reversedToggle()">Menu główne</button>
+    </div>
+    <div id="lost">
+      PRZEGRAŁEŚ HAHAH
+      <button id="lostButton" onclick="reversedToggle()">Menu główne</button>
+    </div>
+    <script src="script.js"></script>
   </body>
 </html>
