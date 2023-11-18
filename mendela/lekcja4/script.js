@@ -5,9 +5,11 @@ const winButton = document.getElementById("winButton");
 const lostButton = document.getElementById("lostButton");
 const main = document.getElementById("main");
 const cards = document.getElementById("cards");
+const timeBarOutline = document.getElementById("timeBarOutline");
+const timeBar = document.getElementById("timeBar");
 let arr = [1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8];
 let defaultBoard = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-let sources = [];
+let selectedTiles = [];
 arr = shuffle(arr);
 
 function toggle() {
@@ -24,7 +26,7 @@ function reversedToggle() {
   tileClicked = true;
   ifInterval = false;
   counter = 0;
-  sources = [];
+  selectedTiles = [];
   refresh(defaultBoard);
 }
 
@@ -49,38 +51,55 @@ let tileClicked = true;
 let counter = 0;
 let ifInterval = false;
 
-async function tile(number, arr) {
+function tile(tileIndex, arr) {
   let tile = document.querySelectorAll("#memoryTile");
+
   if (!ifInterval) {
     startInterval(time);
   }
-  if (tileClicked && tile[number - 1].src.includes("images/0.jpg")) {
-    let tileSource = (tile[number - 1].src = `images/${arr[number - 1]}.jpg`);
-    if (
-      (sources.length == 1 && sources[0][1] != number) ||
-      sources.length == 0
-    ) {
-      sources.push([tileSource, number]);
-    }
-    if (sources.length >= 2) {
-      if (sources[0][0] == sources[1][0]) {
-        counter++;
-        sources = [];
-      } else {
-        tileClicked = false;
-        await new Promise((resolve) => setTimeout(resolve, 1000));
-        tile[sources[0][1] - 1].src = `images/0.jpg`;
-        tile[sources[1][1] - 1].src = `images/0.jpg`;
-        sources = [];
-        tileClicked = true;
-      }
-    }
+
+  if (!tileClicked || !tile[tileIndex - 1].src.includes("images/0.jpg")) {
+    return;
+  }
+
+  let tileSource = (tile[tileIndex - 1].src = `images/${
+    arr[tileIndex - 1]
+  }.jpg`);
+
+  if (
+    (selectedTiles.length == 1 && selectedTiles[0][1] != tileIndex) ||
+    selectedTiles.length == 0
+  ) {
+    selectedTiles.push([tileSource, tileIndex]);
+  }
+
+  if (selectedTiles.length < 2) {
+    return;
+  }
+
+  if (selectedTiles[0][0] == selectedTiles[1][0]) {
+    counter++;
+    selectedTiles = [];
+  } else {
+    tileClicked = false;
+    setTimeout(() => {
+      tile[selectedTiles[0][1] - 1].src = `images/0.jpg`;
+      tile[selectedTiles[1][1] - 1].src = `images/0.jpg`;
+      selectedTiles = [];
+      tileClicked = true;
+    }, 500);
   }
 }
 
+let dupa = new Date();
+console.log(dupa);
+dupa.setSeconds(10);
+console.log(dupa.getSeconds());
+console.log(dupa);
+
 function startInterval(time) {
   ifInterval = true;
-  let temp = window.setInterval(() => {
+  let interval = window.setInterval(() => {
     time -= 1;
     // header.innerText = time;
     console.log(time);
@@ -88,12 +107,12 @@ function startInterval(time) {
       cards.style.display = "none";
       lost.style.display = "flex";
       // lostButton.style.display = "block";
-      window.clearInterval(temp);
+      window.clearInterval(interval);
     }
     if (counter == 8) {
       cards.style.display = "none";
       win.style.display = "flex";
-      window.clearInterval(temp);
+      window.clearInterval(interval);
     }
   }, 1000);
 }

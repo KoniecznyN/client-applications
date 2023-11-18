@@ -8,8 +8,8 @@
   </head>
   <body>
     <h1 id="h1">MEMORY GAME</h1>
-    <img src="images/czolowa.png" alt="main" id="main" usemap="#image-map" />
 
+    <img src="images/czolowa.png" alt="main" id="main" usemap="#image-map" />
     <map name="image-map" id="main">
       <area
         target=""
@@ -39,6 +39,9 @@
         onclick="mainGame(90), toggle()"
       />
     </map>
+    <div id="timeBarOutline">
+      <div id="timeBar"></div>
+    </div>
     <div id="cards">
       <img src="images/1.jpg" alt="1" id="memoryTile" onclick="tile(1, arr)" />
       <img src="images/1.jpg" alt="1" id="memoryTile" onclick="tile(2, arr)" />

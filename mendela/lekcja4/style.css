@@ -28,6 +28,19 @@ h1 {
   height: 100px;
 }
 
+#timeBarOutline {
+  display: none;
+  border: 2px solid black;
+  width: 450px;
+  height: 50px;
+}
+
+#timeBar {
+  width: 446px;
+  height: 100%;
+  background-color: grey;
+}
+
 div > p {
   display: none;
 }
