@@ -6,15 +6,24 @@ const lostButton = document.getElementById("lostButton");
 const main = document.getElementById("main");
 const cards = document.getElementById("cards");
 const timeBarOutline = document.getElementById("timeBarOutline");
+const timeBarP = document.getElementById("timeBarP");
 const timeBar = document.getElementById("timeBar");
+let time = 0;
 let arr = [1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8];
 let defaultBoard = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 let selectedTiles = [];
-arr = shuffle(arr);
+let cookieArrayThirty = [];
+let cookieArraySixty = [];
+let cookieArrayNinety = [];
+const userObject = {
+  username: "username",
+  score: "score",
+};
+// arr = shuffle(arr);
 
 function toggle() {
   main.style.display = "none";
-  cards.style.display = "block";
+  cards.style.display = "flex";
 }
 
 function reversedToggle() {
@@ -23,11 +32,14 @@ function reversedToggle() {
   win.style.display = "none";
   lost.style.display = "none";
   header.innerText = "MEMORY GAME";
+  timeBarOutline.style.display = "none";
   tileClicked = true;
   ifInterval = false;
   counter = 0;
   selectedTiles = [];
   refresh(defaultBoard);
+
+  addToCookie(time);
 }
 
 function shuffle(arr) {
@@ -48,8 +60,8 @@ function refresh(arr) {
 }
 
 let tileClicked = true;
-let counter = 0;
 let ifInterval = false;
+let counter = 0;
 
 function tile(tileIndex, arr) {
   let tile = document.querySelectorAll("#memoryTile");
@@ -91,36 +103,95 @@ function tile(tileIndex, arr) {
   }
 }
 
-let dupa = new Date();
-console.log(dupa);
-dupa.setSeconds(10);
-console.log(dupa.getSeconds());
-console.log(dupa);
-
 function startInterval(time) {
   ifInterval = true;
-  let interval = window.setInterval(() => {
-    time -= 1;
-    // header.innerText = time;
-    console.log(time);
-    if (time == 0) {
+  timeBarOutline.style.display = "block";
+  console.log(time);
+
+  const targetTime = new Date().getTime() + time * 1000;
+  let timerId;
+
+  function updateTimer() {
+    const currentTime = new Date().getTime();
+    const remainingTime = targetTime - currentTime;
+
+    if (remainingTime <= 0) {
+      timeBarP.innerText = "KONIEC CZASU";
+      stopTimer();
       cards.style.display = "none";
       lost.style.display = "flex";
-      // lostButton.style.display = "block";
-      window.clearInterval(interval);
+      return "Przegrana";
+    } else {
+      const minutes = Math.floor(remainingTime / (1000 * 60));
+      const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
+      const milliseconds = remainingTime % 1000;
+
+      const formattedTime = `${String(minutes).padStart(2, "0")}:${String(
+        seconds
+      ).padStart(2, "0")}:${String(milliseconds).padStart(3, "0")}`;
+
+      timeBar.style.width = remainingTime / time / 10 + "%";
+      timeBarP.innerText = formattedTime;
     }
-    if (counter == 8) {
+
+    if (counter < 8) {
+      timerId = setTimeout(updateTimer, 1);
+    } else {
+      stopTimer();
+      const scoreTime = time * 1000 - remainingTime;
+      const minutes = Math.floor(scoreTime / (1000 * 60));
+      const seconds = Math.floor((scoreTime % (1000 * 60)) / 1000);
+      const milliseconds = scoreTime % 1000;
+
+      const formattedTime = `${String(minutes).padStart(2, "0")}:${String(
+        seconds
+      ).padStart(2, "0")}:${String(milliseconds).padStart(3, "0")}`;
+
       cards.style.display = "none";
       win.style.display = "flex";
-      window.clearInterval(interval);
+      userObject.score = formattedTime;
+      return formattedTime;
     }
-  }, 1000);
+  }
+
+  function stopTimer() {
+    clearTimeout(timerId);
+  }
+
+  updateTimer();
 }
 
-let time = 0;
-
-function mainGame(gameTime) {
-  time = gameTime;
+function setPlaytime(playTime) {
+  time = playTime;
+  const username = prompt("Podaj imie: ");
+  userObject.username = username;
   refresh(defaultBoard);
-  header.innerText = time + "[s]";
+  header.innerText = `MEMORY (${time}[s])`;
+}
+
+function setCookie(cname, cvalue) {
+  const d = new Date();
+  d.setTime(d.getTime() + 1000 * 24 * 60 * 60 * 1000);
+  let expires = "expires=" + d.toUTCString();
+  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+
+function addToCookie(time) {
+  let cookieObject = JSON.stringify(userObject);
+
+  switch (time) {
+    case 30:
+      cookieArrayThirty.push(cookieObject);
+      setCookie("30", JSON.stringify(cookieArrayThirty));
+      break;
+    case 60:
+      cookieArraySixty.push(cookieObject);
+      setCookie("60", cookieArraySixty);
+      break;
+    case 90:
+      cookieArrayNinety.push(cookieObject);
+      setCookie("90", cookieArrayNinety);
+      break;
+  }
+  console.log(document.cookie);
 }
