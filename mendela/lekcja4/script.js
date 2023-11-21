@@ -106,7 +106,6 @@ function tile(tileIndex, arr) {
 function startInterval(time) {
   ifInterval = true;
   timeBarOutline.style.display = "block";
-  console.log(time);
 
   const targetTime = new Date().getTime() + time * 1000;
   let timerId;
@@ -178,20 +177,65 @@ function setCookie(cname, cvalue) {
 
 function addToCookie(time) {
   let cookieObject = JSON.stringify(userObject);
-
+  let cookie = document.cookie;
+  console.log(cookie);
   switch (time) {
     case 30:
       cookieArrayThirty.push(cookieObject);
-      setCookie("30", JSON.stringify(cookieArrayThirty));
+      if (cookieArrayThirty.length <= 1 && cookie.length > 0) {
+        cookieArrayThirty = stringToArray(cookie, "30");
+        cookieArrayThirty.push(cookieObject);
+      }
+      console.log(cookieArrayThirty);
+      setCookie("30", arrayToString(cookieArrayThirty));
       break;
     case 60:
       cookieArraySixty.push(cookieObject);
+      if (cookieArraySixty.length <= 1 && cookie.length > 0) {
+        cookieArraySixty = stringToArray(cookie, "60");
+        cookieArraySixty.push(cookieObject);
+      }
       setCookie("60", cookieArraySixty);
       break;
     case 90:
       cookieArrayNinety.push(cookieObject);
+      if (cookieArrayNinety.length <= 1 && cookie.length > 0) {
+        cookieArrayNinety = stringToArray(cookie, "90");
+        cookieArrayNinety.push(cookieObject);
+      }
       setCookie("90", cookieArrayNinety);
       break;
   }
   console.log(document.cookie);
+  console.log(stringToArray(document.cookie));
+}
+
+function stringToArray(string, key) {
+  array = string.split(";");
+  let newArray = [];
+  let result = [];
+  for (let i = 0; i < array.length; i++) {
+    let newElement = array[i];
+    newArray = newElement.split("=");
+    newArray[0] = newArray[0].replaceAll(" ", "");
+    let stringElement = "";
+    stringElement = newArray[1];
+    stringElement = stringElement.replaceAll("},{", "};{");
+    stringElement = stringElement.split(";");
+    if (newArray[0] == key) {
+      for (let j = 0; j < stringElement.length; j++) {
+        result.push(JSON.parse(stringElement[j]));
+      }
+    } else continue;
+  }
+
+  return result;
+}
+
+function arrayToString(array) {
+  array = array.toString();
+  array = array.replaceAll("[", "");
+  array = array.replaceAll("]", "");
+  console.log(array);
+  return array;
 }
