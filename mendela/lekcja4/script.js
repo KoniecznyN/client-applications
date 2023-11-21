@@ -183,7 +183,7 @@ function addToCookie(time) {
     case 30:
       cookieArrayThirty.push(cookieObject);
       if (cookieArrayThirty.length <= 1 && cookie.length > 0) {
-        cookieArrayThirty = stringToArray(cookie, "30");
+        cookieArrayThirty = cookieToArray(cookie, "30");
         cookieArrayThirty.push(cookieObject);
       }
       console.log(cookieArrayThirty);
@@ -192,7 +192,7 @@ function addToCookie(time) {
     case 60:
       cookieArraySixty.push(cookieObject);
       if (cookieArraySixty.length <= 1 && cookie.length > 0) {
-        cookieArraySixty = stringToArray(cookie, "60");
+        cookieArraySixty = cookieToArray(cookie, "60");
         cookieArraySixty.push(cookieObject);
       }
       setCookie("60", cookieArraySixty);
@@ -200,17 +200,17 @@ function addToCookie(time) {
     case 90:
       cookieArrayNinety.push(cookieObject);
       if (cookieArrayNinety.length <= 1 && cookie.length > 0) {
-        cookieArrayNinety = stringToArray(cookie, "90");
+        cookieArrayNinety = cookieToArray(cookie, "90");
         cookieArrayNinety.push(cookieObject);
       }
       setCookie("90", cookieArrayNinety);
       break;
   }
   console.log(document.cookie);
-  console.log(stringToArray(document.cookie));
+  console.log(cookieToArray(document.cookie));
 }
 
-function stringToArray(string, key) {
+function cookieToArray(string, key) {
   array = string.split(";");
   let newArray = [];
   let result = [];

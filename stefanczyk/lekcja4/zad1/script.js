@@ -19,8 +19,6 @@ $(document).ready(function () {
       for (let i = 0; i < ceny.length; ++i) {
         let tr = $("<tr>");
         for (let j = 0; j < lps.length; ++j) {
-          if (j == 0) {
-          }
           let td = $("<td>").html(lps[j]);
           switch (j) {
             case 0:
@@ -45,6 +43,8 @@ $(document).ready(function () {
       }
 
       wynik = wynik.toFixed(2).toString().replace(".", ",");
+      // wynik = wynik.split(",");
+      // wynik = wynik[1];
 
       tr = $("<tr>");
       for (let i = 0; i < lps.length - 1; ++i) {
