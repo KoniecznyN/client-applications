@@ -8,6 +8,11 @@ const cards = document.getElementById("cards");
 const timeBarOutline = document.getElementById("timeBarOutline");
 const timeBarP = document.getElementById("timeBarP");
 const timeBar = document.getElementById("timeBar");
+const thirtyTable = document.getElementById("thirty");
+const sixtyTable = document.getElementById("sixty");
+const ninetyTable = document.getElementById("ninety");
+const rightPanel = document.getElementById("rightPanel");
+const scoreTable = document.getElementById("scoreTable");
 let time = 0;
 let arr = [1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8];
 let defaultBoard = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
@@ -19,11 +24,12 @@ const userObject = {
   username: "username",
   score: "score",
 };
-// arr = shuffle(arr);
 
 function toggle() {
   main.style.display = "none";
   cards.style.display = "flex";
+  rightPanel.style.display = "none";
+  arr = shuffle(arr);
 }
 
 function reversedToggle() {
@@ -37,9 +43,11 @@ function reversedToggle() {
   ifInterval = false;
   counter = 0;
   selectedTiles = [];
+  rightPanel.style.display = "block";
   refresh(defaultBoard);
-
-  addToCookie(time);
+  thirtyTable.innerText = cookiesToArray("30");
+  sixtyTable.innerText = cookiesToArray("60");
+  ninetyTable.innerText = cookiesToArray("90");
 }
 
 function shuffle(arr) {
@@ -149,6 +157,7 @@ function startInterval(time) {
       cards.style.display = "none";
       win.style.display = "flex";
       userObject.score = formattedTime;
+      addToCookie(time);
       return formattedTime;
     }
   }
@@ -172,70 +181,74 @@ function setCookie(cname, cvalue) {
   const d = new Date();
   d.setTime(d.getTime() + 1000 * 24 * 60 * 60 * 1000);
   let expires = "expires=" + d.toUTCString();
-  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+  cvalue = JSON.stringify(cvalue);
+  if (getCookie(cname) == "") {
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+  } else {
+    let cookie = getCookie(cname);
+    cookie += "," + cvalue;
+    document.cookie = cname + "=" + cookie + ";" + expires + ";path=/";
+  }
+}
+
+function getCookie(cname) {
+  let name = cname + "=";
+  let decodedCookie = decodeURIComponent(document.cookie);
+  let ca = decodedCookie.split(";");
+  for (let i = 0; i < ca.length; i++) {
+    let c = ca[i];
+    while (c.charAt(0) == " ") {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
 }
 
 function addToCookie(time) {
-  let cookieObject = JSON.stringify(userObject);
-  let cookie = document.cookie;
-  console.log(cookie);
   switch (time) {
     case 30:
-      cookieArrayThirty.push(cookieObject);
-      if (cookieArrayThirty.length <= 1 && cookie.length > 0) {
-        cookieArrayThirty = cookieToArray(cookie, "30");
-        cookieArrayThirty.push(cookieObject);
-      }
-      console.log(cookieArrayThirty);
-      setCookie("30", arrayToString(cookieArrayThirty));
+      setCookie("30", userObject);
       break;
     case 60:
-      cookieArraySixty.push(cookieObject);
-      if (cookieArraySixty.length <= 1 && cookie.length > 0) {
-        cookieArraySixty = cookieToArray(cookie, "60");
-        cookieArraySixty.push(cookieObject);
-      }
-      setCookie("60", cookieArraySixty);
+      setCookie("60", userObject);
       break;
     case 90:
-      cookieArrayNinety.push(cookieObject);
-      if (cookieArrayNinety.length <= 1 && cookie.length > 0) {
-        cookieArrayNinety = cookieToArray(cookie, "90");
-        cookieArrayNinety.push(cookieObject);
-      }
-      setCookie("90", cookieArrayNinety);
+      setCookie("90", userObject);
       break;
   }
   console.log(document.cookie);
-  console.log(cookieToArray(document.cookie));
 }
 
-function cookieToArray(string, key) {
-  array = string.split(";");
-  let newArray = [];
-  let result = [];
-  for (let i = 0; i < array.length; i++) {
-    let newElement = array[i];
-    newArray = newElement.split("=");
-    newArray[0] = newArray[0].replaceAll(" ", "");
-    let stringElement = "";
-    stringElement = newArray[1];
-    stringElement = stringElement.replaceAll("},{", "};{");
-    stringElement = stringElement.split(";");
-    if (newArray[0] == key) {
-      for (let j = 0; j < stringElement.length; j++) {
-        result.push(JSON.parse(stringElement[j]));
-      }
-    } else continue;
+function toNumber(string) {
+  string = string.replaceAll(":", "");
+  let number = parseInt(string);
+  return number;
+}
+
+function cookiesToArray(cvalue) {
+  console.log(cvalue);
+  let cookies = getCookie(cvalue);
+  if (cookies == "") {
+    return "brak";
+  } else {
+    cookies = cookies.replaceAll("},{", "};{");
+    cookies = cookies.split(";");
+    for (let i = 0; i < cookies.length; ++i) {
+      cookies[i] = JSON.parse(cookies[i]);
+    }
+    cookies.sort((a, b) => (toNumber(a.score) > toNumber(b.score) ? 1 : -1));
+    let score = "";
+    for (let i = 0; i < cookies.length; i++) {
+      let cookie = cookies[i];
+      score += `${i + 1}. ${cookie.username} - ${cookie.score} \n`;
+    }
+    return score;
   }
-
-  return result;
 }
 
-function arrayToString(array) {
-  array = array.toString();
-  array = array.replaceAll("[", "");
-  array = array.replaceAll("]", "");
-  console.log(array);
-  return array;
-}
+thirtyTable.innerText = cookiesToArray("30");
+sixtyTable.innerText = cookiesToArray("60");
+ninetyTable.innerText = cookiesToArray("90");

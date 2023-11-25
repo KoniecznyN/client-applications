@@ -13,27 +13,50 @@ body {
 
 h1 {
   margin-top: 10px;
-  font-size: 3em;
+  font-size: 4em;
 }
 
-#main {
-  margin-top: 10px;
-  width: 400px;
-  height: 400px;
+#bottomPanel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
+
+#rightPanel {
+  padding-left: 10px;
+}
+
+#leftPanel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding-right: 10px;
+}
+
+/* #main {
+  width: 500px;
+  height: 500px;
+} */
 
 #cards {
-  width: 450;
-  height: 450px;
+  margin-top: 20px;
+  /* width: 500px; */
+  height: 500px;
   display: none;
   justify-content: center;
   align-items: center;
   flex-direction: column;
 }
 
+#tileRow {
+  padding: 2px;
+}
+
 #memoryTile {
-  width: 100px;
-  height: 100px;
+  margin: -2px;
+  width: 125px;
+  height: 125px;
 }
 
 #timeBarOutline {
@@ -60,25 +83,23 @@ h1 {
 #winButton {
   width: 200px;
   height: 50px;
-  border: 2px white solid;
-  background-color: darkgreen;
+  background-color: black;
   color: white;
   font-family: "Courier New", Courier, monospace;
   font-weight: 900;
-  font-size: 0.5em;
-  margin: 20px;
+  font-size: 20px;
+  margin: 0.3em;
 }
 
 #lostButton {
   width: 200px;
   height: 50px;
-  border: 2px white solid;
-  background-color: darkred;
+  background-color: black;
   color: white;
   font-family: "Courier New", Courier, monospace;
   font-weight: 900;
-  font-size: 0.5em;
-  margin: 20px;
+  font-size: 20px;
+  margin: 0.3em;
 }
 
 #win {
@@ -87,13 +108,12 @@ h1 {
   align-items: center;
   flex-direction: column;
   text-align: center;
-  width: 400px;
-  height: 400px;
-  background-color: green;
-  color: white;
+  width: 500px;
+  height: 500px;
+  color: green;
   font-family: "Courier New", Courier, monospace;
   font-weight: 900;
-  font-size: 3em;
+  font-size: 5em;
   border-radius: 5%;
   margin-top: 15px;
 }
@@ -104,13 +124,42 @@ h1 {
   align-items: center;
   flex-direction: column;
   text-align: center;
-  width: 400px;
-  height: 400px;
-  background-color: red;
-  color: white;
+  width: 500px;
+  height: 500px;
+  color: red;
   font-family: "Courier New", Courier, monospace;
   font-weight: 900;
-  font-size: 3em;
+  font-size: 5em;
   border-radius: 5%;
   margin-top: 15px;
+}
+
+#scoreTable {
+  border: 2px solid black;
+  width: 500px;
+  height: 500px;
+  display: flex;
+  /* justify-content: center; */
+  align-items: center;
+  flex-direction: column;
+  overflow-y: scroll;
+  background-color: black;
+}
+
+#thirty,
+#sixty,
+#ninety {
+  display: block;
+  width: 100%;
+  padding-left: 25px;
+  background-color: white;
+  padding: 8px;
+}
+
+#scoreParagraph {
+  color: white;
+  background-color: black;
+  width: 100%;
+  text-align: center;
+  font-size: 1.4em;
 }
