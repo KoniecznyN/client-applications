@@ -28,20 +28,15 @@ const userObject = {
 };
 
 function toggle() {
-  const username = usernameInput.value;
-  if (usernameCheck(username)) {
-    alert("BŁĘDNE DANE");
-    return;
-  } else {
-    userObject.username = username;
-    usernameBox.style.display = "none";
-    main.style.display = "none";
-    cards.style.display = "flex";
-    rightPanel.style.display = "none";
-
-    header.innerText = `MEMORY (${time}[s])`;
-    arr = shuffle(arr);
-  }
+  let username = usernameInput.value;
+  username = encodeURIComponent(username);
+  userObject.username = username;
+  usernameBox.style.display = "none";
+  main.style.display = "none";
+  cards.style.display = "flex";
+  rightPanel.style.display = "none";
+  header.innerText = `MEMORY (${time}[s])`;
+  arr = shuffle(arr);
 }
 
 function reversedToggle() {
@@ -204,7 +199,7 @@ function setCookie(cname, cvalue) {
 
 function getCookie(cname) {
   let name = cname + "=";
-  let decodedCookie = decodeURIComponent(document.cookie);
+  let decodedCookie = document.cookie;
   let ca = decodedCookie.split(";");
   for (let i = 0; i < ca.length; i++) {
     let c = ca[i];
@@ -240,29 +235,34 @@ function toNumber(string) {
 }
 
 function cookiesToArray(cvalue) {
-  console.log(cvalue);
   let cookies = getCookie(cvalue);
+  console.log(cookies);
+  let score = "";
   if (cookies == "") {
-    return "brak";
+    for (let i = 0; i < 10; ++i) {
+      score += `${i + 1}. ---\n`;
+    }
+    return score;
   } else {
     cookies = cookies.replaceAll("},{", "};{");
     cookies = cookies.split(";");
+    console.log(cookies);
     for (let i = 0; i < cookies.length; ++i) {
       cookies[i] = JSON.parse(cookies[i]);
     }
     cookies.sort((a, b) => (toNumber(a.score) > toNumber(b.score) ? 1 : -1));
-    let score = "";
-    for (let i = 0; i < cookies.length; i++) {
-      let cookie = cookies[i];
-      score += `${i + 1}. ${cookie.username} - ${cookie.score} \n`;
+    for (let i = 0; i < 10; ++i) {
+      if (cookies[i] != undefined) {
+        let cookie = cookies[i];
+        score += `${i + 1}. ${decodeURIComponent(cookie.username)} - ${
+          cookie.score
+        } \n`;
+      } else {
+        score += `${i + 1}. ---\n`;
+      }
     }
     return score;
   }
-}
-
-function usernameCheck(username) {
-  const specialChars = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
-  return specialChars.test(username);
 }
 
 thirtyTable.innerText = cookiesToArray("30");
