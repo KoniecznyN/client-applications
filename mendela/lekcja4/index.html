@@ -11,6 +11,11 @@
       <h1 id="h1">MEMORY GAME</h1>
     </div>
     <div id="bottomPanel">
+      <div id="usernameBox">
+        <label for="usernameInput">Podaj nazwę użytkownika: </label>
+        <input type="text" name="" id="usernameInput" />
+        <button id="submitButton" onclick=" toggle()">ZATWIERDŹ</button>
+      </div>
       <div id="leftPanel">
         <img
           src="images/czolowa.png"
@@ -26,7 +31,7 @@
             href="#"
             coords="53,51,422,80,86,195"
             shape="poly"
-            onclick="setPlaytime(30), toggle()"
+            onclick="setPlaytime(30)"
           />
           <area
             target=""
@@ -35,7 +40,7 @@
             href="#"
             coords="105,280,429,139,460,300"
             shape="poly"
-            onclick="setPlaytime(60), toggle()"
+            onclick="setPlaytime(60)"
           />
           <area
             target=""
@@ -44,7 +49,7 @@
             href="#"
             coords="119,345,463,383,143,487"
             shape="poly"
-            onclick="setPlaytime(90), toggle()"
+            onclick="setPlaytime(90)"
           />
         </map>
         <div id="timeBarOutline">

@@ -13,6 +13,8 @@ const sixtyTable = document.getElementById("sixty");
 const ninetyTable = document.getElementById("ninety");
 const rightPanel = document.getElementById("rightPanel");
 const scoreTable = document.getElementById("scoreTable");
+const usernameBox = document.getElementById("usernameBox");
+const usernameInput = document.getElementById("usernameInput");
 let time = 0;
 let arr = [1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8];
 let defaultBoard = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
@@ -26,10 +28,20 @@ const userObject = {
 };
 
 function toggle() {
-  main.style.display = "none";
-  cards.style.display = "flex";
-  rightPanel.style.display = "none";
-  arr = shuffle(arr);
+  const username = usernameInput.value;
+  if (usernameCheck(username)) {
+    alert("BŁĘDNE DANE");
+    return;
+  } else {
+    userObject.username = username;
+    usernameBox.style.display = "none";
+    main.style.display = "none";
+    cards.style.display = "flex";
+    rightPanel.style.display = "none";
+
+    header.innerText = `MEMORY (${time}[s])`;
+    arr = shuffle(arr);
+  }
 }
 
 function reversedToggle() {
@@ -48,6 +60,7 @@ function reversedToggle() {
   thirtyTable.innerText = cookiesToArray("30");
   sixtyTable.innerText = cookiesToArray("60");
   ninetyTable.innerText = cookiesToArray("90");
+  usernameInput.value = "";
 }
 
 function shuffle(arr) {
@@ -171,10 +184,8 @@ function startInterval(time) {
 
 function setPlaytime(playTime) {
   time = playTime;
-  const username = prompt("Podaj imie: ");
-  userObject.username = username;
+  usernameBox.style.display = "flex";
   refresh(defaultBoard);
-  header.innerText = `MEMORY (${time}[s])`;
 }
 
 function setCookie(cname, cvalue) {
@@ -247,6 +258,11 @@ function cookiesToArray(cvalue) {
     }
     return score;
   }
+}
+
+function usernameCheck(username) {
+  const specialChars = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+  return specialChars.test(username);
 }
 
 thirtyTable.innerText = cookiesToArray("30");
