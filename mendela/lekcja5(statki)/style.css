@@ -2,20 +2,38 @@
   box-sizing: border-box;
 }
 
-#board {
+#main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#playerBoard {
+  margin: 20px;
+}
+
+#botBoard {
+  margin: 20px;
   width: 500px;
   height: 500px;
   display: flex;
   justify-content: center;
+  flex-direction: column;
+  /* border: 1px solid black; */
 }
 
 #row {
   width: 500px;
   height: 50px;
+  display: flex;
 }
 
 #el {
   width: 50px;
   height: 50px;
   border: 1px solid black;
+}
+
+.ship {
+  background-color: black;
 }
