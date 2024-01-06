@@ -1,0 +1,65 @@
+* {
+  box-sizing: border-box;
+}
+
+#main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#gameBoard {
+  margin: 20px;
+}
+
+#row {
+  width: 420px;
+  height: 20px;
+  display: flex;
+}
+
+#el {
+  width: 20px;
+  height: 20px;
+  /* border: 0.5px solid black; */
+}
+
+#wall {
+  background-image: url(snake.png);
+  background-color: black;
+  width: 20px;
+  height: 20px;
+}
+
+#snakeHead {
+  background-image: url(snake.png);
+  background-size: 100px;
+  background-position: -80px 0px;
+  width: 20px;
+  height: 20px;
+}
+
+#snakeBody {
+  background-image: url(snake.png);
+  background-size: 100px;
+  background-position: -20px 0px;
+  width: 20px;
+  height: 20px;
+}
+
+#snakeTail {
+  background-image: url(snake.png);
+  background-size: 100px;
+  background-position: -80px -40px;
+  width: 20px;
+  height: 20px;
+}
+
+#apple {
+  /* background-color: red; */
+  background-image: url(snake.png);
+  background-size: 100px;
+  background-position: 0px -60px;
+  width: 20px;
+  height: 20px;
+}
