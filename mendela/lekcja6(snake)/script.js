@@ -101,7 +101,6 @@ var game = {
         case 2:
           return this.youLoose();
         case 1:
-          console.log("witam");
           return this.youLoose();
         default:
           this.snake.pop();
@@ -135,26 +134,97 @@ var game = {
     }
   },
   updateSnakeGraphic() {
-    if (this.snake.length == 1) {
-      this.gameBoard[this.snake[0].y][this.snake[0].x].content.id = "snakeHead";
-    }
-    if (this.snake.length == 2) {
-      this.gameBoard[this.snake[0].y][this.snake[0].x].content.id = "snakeHead";
-      this.gameBoard[this.snake[1].y][this.snake[1].x].content.id = "snakeTail";
-    }
-    if (this.snake.length >= 3) {
-      for (let i = 0; i < this.snake.length; i++) {
-        if (i == 0) {
-          this.gameBoard[this.snake[i].y][this.snake[i].x].content.id =
-            "snakeHead";
-        } else if (i == this.snake.length - 1) {
-          this.gameBoard[this.snake[i].y][this.snake[i].x].content.id =
-            "snakeTail";
-        } else {
-          this.gameBoard[this.snake[i].y][this.snake[i].x].content.id =
-            "snakeBody";
+    let updateHead = () => {
+      switch (this.lastClckedKey) {
+        case "KeyW":
+          return (this.gameBoard[this.snake[0].y][this.snake[0].x].content.id =
+            "snakeHeadU");
+        case "KeyS":
+          return (this.gameBoard[this.snake[0].y][this.snake[0].x].content.id =
+            "snakeHeadD");
+        case "KeyD":
+          return (this.gameBoard[this.snake[0].y][this.snake[0].x].content.id =
+            "snakeHeadR");
+        case "KeyA":
+          return (this.gameBoard[this.snake[0].y][this.snake[0].x].content.id =
+            "snakeHeadL");
+      }
+    };
+
+    let updateTail = () => {
+      let vector = {
+        x:
+          this.snake[this.snake.length - 2].x -
+          this.snake[this.snake.length - 1].x,
+        y:
+          this.snake[this.snake.length - 2].y -
+          this.snake[this.snake.length - 1].y,
+      };
+      vector = `${vector.x}, ${vector.y}`;
+      switch (vector) {
+        case "0, -1":
+          return (this.gameBoard[this.snake[this.snake.length - 1].y][
+            this.snake[this.snake.length - 1].x
+          ].content.id = "snakeTailU");
+        case "0, 1":
+          return (this.gameBoard[this.snake[this.snake.length - 1].y][
+            this.snake[this.snake.length - 1].x
+          ].content.id = "snakeTailD");
+        case "1, 0":
+          return (this.gameBoard[this.snake[this.snake.length - 1].y][
+            this.snake[this.snake.length - 1].x
+          ].content.id = "snakeTailR");
+        case "-1, 0":
+          return (this.gameBoard[this.snake[this.snake.length - 1].y][
+            this.snake[this.snake.length - 1].x
+          ].content.id = "snakeTailL");
+      }
+    };
+
+    let updateBody = () => {
+      for (let i = 1; i < this.snake.length; ++i) {
+        let vectorBeforeElement = {
+          x: this.snake[i - 1].x - this.snake[i].x,
+          y: this.snake[i - 1].y - this.snake[i].y,
+        };
+        let vectorAfterElement = {
+          x: this.snake[i + 1].x - this.snake[i].x,
+          y: this.snake[i + 1].y - this.snake[i].y,
+        };
+        vector = `${vectorBeforeElement.x}, ${vectorBeforeElement.y}; ${vectorAfterElement.x}, ${vectorAfterElement.y}`;
+        if (vector == "1, 0; -1, 0" || vector == "-1, 0; 1, 0") {
+          return (this.gameBoard[this.snake[i].y][this.snake[i].x].content.id =
+            "snakeBodyHorizontally");
+        } else if (vector == "0, 1; 0, -1" || vector == "0, -1; 0, 1") {
+          return (this.gameBoard[this.snake[i].y][this.snake[i].x].content.id =
+            "snakeBodyVertically");
+        } else if (vector == "1, 0; 0, 1" || vector == "0, 1; 1, 0") {
+          return (this.gameBoard[this.snake[i].y][this.snake[i].x].content.id =
+            "snakeBodyDtoR");
+        } else if (vector == "-1, 0; 0, 1" || vector == "0, 1; -1, 0") {
+          return (this.gameBoard[this.snake[i].y][this.snake[i].x].content.id =
+            "snakeBodyDtoL");
+        } else if (vector == "0, -1; 1, 0" || vector == "1, 0; 0, -1") {
+          return (this.gameBoard[this.snake[i].y][this.snake[i].x].content.id =
+            "snakeBodyUtoR");
+        } else if (vector == "0, -1; -1, 0" || vector == "-1, 0; 0, -1") {
+          return (this.gameBoard[this.snake[i].y][this.snake[i].x].content.id =
+            "snakeBodyUtoL");
         }
       }
+    };
+
+    if (this.snake.length == 1) {
+      updateHead();
+    }
+    if (this.snake.length == 2) {
+      updateHead();
+      updateTail();
+    }
+    if (this.snake.length >= 3) {
+      updateHead();
+      updateBody();
+      updateTail();
     }
   },
   updateBoard() {

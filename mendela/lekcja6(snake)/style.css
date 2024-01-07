@@ -31,7 +31,23 @@
   height: 20px;
 }
 
-#snakeHead {
+#snakeHeadU {
+  background-image: url(snake.png);
+  background-size: 100px;
+  background-position: -60px 0px;
+  width: 20px;
+  height: 20px;
+}
+
+#snakeHeadD {
+  background-image: url(snake.png);
+  background-size: 100px;
+  background-position: -80px -20px;
+  width: 20px;
+  height: 20px;
+}
+
+#snakeHeadR {
   background-image: url(snake.png);
   background-size: 100px;
   background-position: -80px 0px;
@@ -39,7 +55,15 @@
   height: 20px;
 }
 
-#snakeBody {
+#snakeHeadL {
+  background-image: url(snake.png);
+  background-size: 100px;
+  background-position: -60px -20px;
+  width: 20px;
+  height: 20px;
+}
+
+#snakeBodyHorizontally {
   background-image: url(snake.png);
   background-size: 100px;
   background-position: -20px 0px;
@@ -47,10 +71,74 @@
   height: 20px;
 }
 
-#snakeTail {
+#snakeBodyVertically {
+  background-image: url(snake.png);
+  background-size: 100px;
+  background-position: -40px -20px;
+  width: 20px;
+  height: 20px;
+}
+
+#snakeBodyDtoL {
+  background-image: url(snake.png);
+  background-size: 100px;
+  background-position: -40px 0px;
+  width: 20px;
+  height: 20px;
+}
+
+#snakeBodyDtoR {
+  background-image: url(snake.png);
+  background-size: 100px;
+  background-position: 0px 0px;
+  width: 20px;
+  height: 20px;
+}
+
+#snakeBodyUtoL {
+  background-image: url(snake.png);
+  background-size: 100px;
+  background-position: -40px -40px;
+  width: 20px;
+  height: 20px;
+}
+
+#snakeBodyUtoR {
+  background-image: url(snake.png);
+  background-size: 100px;
+  background-position: 0px -20px;
+  width: 20px;
+  height: 20px;
+}
+
+#snakeTailU {
+  background-image: url(snake.png);
+  background-size: 100px;
+  background-position: -60px -40px;
+  width: 20px;
+  height: 20px;
+}
+
+#snakeTailD {
+  background-image: url(snake.png);
+  background-size: 100px;
+  background-position: -80px -60px;
+  width: 20px;
+  height: 20px;
+}
+
+#snakeTailR {
   background-image: url(snake.png);
   background-size: 100px;
   background-position: -80px -40px;
+  width: 20px;
+  height: 20px;
+}
+
+#snakeTailL {
+  background-image: url(snake.png);
+  background-size: 100px;
+  background-position: -60px -60px;
   width: 20px;
   height: 20px;
 }
