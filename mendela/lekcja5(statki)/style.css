@@ -3,9 +3,32 @@
 }
 
 #main {
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+#ships {
+  display: flex;
+  justify-content: center;
+  align-items: start;
+  flex-direction: column;
+}
+
+#four,
+#three,
+#two,
+#one {
+  display: flex;
+  justify-content: center;
+  margin: 10px;
+}
+
+#element {
+  width: 50px;
+  height: 50px;
+  border: 1px solid black;
 }
 
 #playerBoard {
@@ -13,6 +36,7 @@
 }
 
 #botBoard {
+  display: none;
   margin: 20px;
   width: 500px;
   height: 500px;
@@ -29,6 +53,26 @@
 }
 
 #el {
+  width: 50px;
+  height: 50px;
+  border: 1px solid black;
+}
+
+#elHighlighted {
+  width: 50px;
+  height: 50px;
+  border: 1px solid black;
+  background-color: blue;
+}
+
+#elClicked {
+  width: 50px;
+  height: 50px;
+  border: 1px solid black;
+  background-color: black;
+}
+
+#elDisabled {
   width: 50px;
   height: 50px;
   border: 1px solid black;

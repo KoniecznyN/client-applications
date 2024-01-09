@@ -40,6 +40,7 @@ var game = {
       document.getElementById("gameBoard").append(row);
     }
   },
+  counter: 0,
   snake: [{ x: 10, y: 10 }],
   snakePosition: undefined,
   vec: { x: 0, y: 0 },
@@ -97,6 +98,9 @@ var game = {
       switch (this.gameBoardScheme[this.snake[0].y][this.snake[0].x]) {
         case 3:
           this.isApple = false;
+          this.counter++;
+          document.getElementById("counter").innerText =
+            "Points: " + this.counter;
           break;
         case 2:
           return this.youLoose();
@@ -252,6 +256,8 @@ var game = {
     this.snake = [{ x: 10, y: 10 }];
     this.gameBoardScheme = [];
     this.gameBoard = [];
+    this.counter = 0;
+    document.getElementById("counter").innerText = "Points: " + this.counter;
     this.init();
   },
 };

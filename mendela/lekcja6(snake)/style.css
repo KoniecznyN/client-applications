@@ -6,6 +6,16 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
+}
+
+#counter {
+  color: black;
+  font-size: 3em;
+  text-align: center;
+  text-transform: uppercase;
+  font-family: monospace;
+  font-weight: 900;
 }
 
 #gameBoard {
