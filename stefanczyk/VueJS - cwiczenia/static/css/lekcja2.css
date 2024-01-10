@@ -1,0 +1,15 @@
+* {
+    font-family: monospace;
+    font-weight: 900;
+
+}
+
+h1 {
+    color: red;
+    font-size: 3em;
+}
+
+h2 {
+    color: blue;
+    font-size: 1.5em;
+}

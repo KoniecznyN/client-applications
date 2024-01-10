@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/lekcja1.css">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <h1>{{ title }}</h1>
+        <h2 v-text="text"></h2>
+    </div>
+    <script>
+        const app = Vue.createApp({
+
+            data() {
+                return {
+                    title: "02: Dyrektywy",
+                    text: "dyrektywa v-text zamiast {{ }} -> brak interpolacji <b>HTML</b> ale jest aktualizacja po zmianie wartości"
+                }
+            }
+        }).mount("#app")
+
+        app.title += " VueJS"
+    </script>
+</body>
+
+</html>

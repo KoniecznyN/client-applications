@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/lekcja2.css" />
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <title>Zad3</title>
+    <style>
+      td {
+        border: 1px solid black;
+        padding: 10px;
+        text-align: center;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="app">
+      <table v-if="products.length>0">
+        <tr>
+          <td>produkty</td>
+          <td>cena</td>
+          <td>---</td>
+        </tr>
+        <tr v-for="(item,i) of products">
+          <td>{{item.product}}</td>
+          <td>{{item.price}}</td>
+          <td @click="addToCart(i)">{{item.selected}}</td>
+        </tr>
+      </table>
+      <p v-else>brak produktow</p>
+    </div>
+    <script>
+      const app = Vue.createApp({
+        data() {
+          return {
+            products: [
+              { product: "książka", price: 100, selected: "dodaj do koszyka" },
+              { product: "płyta CD", price: 200, selected: "dodaj do koszyka" },
+              { product: "mleko", price: 300, selected: "dodaj do koszyka" },
+              { product: "buty", price: 400, selected: "dodaj do koszyka" },
+            ],
+          };
+        },
+        methods: {
+          addToCart(i) {
+            if (this.products[i].selected == "dodaj do koszyka") {
+              this.products[i].selected = "w koszyku";
+            } else this.products[i].selected = "dodaj do koszyka";
+          },
+        },
+      }).mount("#app");
+    </script>
+  </body>
+</html>

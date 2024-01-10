@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/lekcja2.css" />
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <title>Zad2</title>
+  </head>
+
+  <body>
+    <div id="app">
+      <form action="/aaa" method="post">
+        <ul>
+          <li><input type="checkbox" v-model="mysz" />mysz</li>
+          <li><input type="checkbox" v-model="laptop" />laptop</li>
+          <li><input type="checkbox" v-model="pc" />pc</li>
+        </ul>
+        <ul>
+          <li>
+            <input type="radio" value="kurier" v-model="dostawa" name="1" />
+          </li>
+          <li>
+            <input type="radio" value="poczta" v-model="dostawa" name="1" />
+          </li>
+          <li>
+            <input type="radio" value="osobiscie" v-model="dostawa" name="1" />
+          </li>
+        </ul>
+        <input type="checkbox" v-model="checkbox" />
+        <input type="submit" value="Wyślij" :disabled="isReady()" />
+      </form>
+    </div>
+    <script>
+      const app = Vue.createApp({
+        data() {
+          return {
+            mysz: "",
+            laptop: "",
+            pc: "",
+            dostawa: "",
+            checkbox: "",
+          };
+        },
+        methods: {
+          isReady() {
+            if (
+              (this.mysz || this.laptop || this.pc) &&
+              this.dostawa &&
+              this.checkbox
+            ) {
+              return false;
+            } else return true;
+          },
+        },
+        computed: {},
+      }).mount("#app");
+    </script>
+  </body>
+</html>

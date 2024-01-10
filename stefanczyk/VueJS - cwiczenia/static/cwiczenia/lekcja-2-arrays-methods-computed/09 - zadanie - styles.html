@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/lekcja2.css" />
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <title>Zad9</title>
+    <style>
+      #app {
+        display: flex;
+        justify-content: flex-start;
+      }
+
+      .even,
+      .odd {
+        width: 100px;
+        height: 100px;
+        color: white;
+        font-size: 3em;
+        margin: 10px;
+      }
+
+      .even {
+        background-color: red;
+      }
+
+      .odd {
+        background-color: blue;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div v-for="item in result" :class="setClass">{{item.id}}</div>
+    </div>
+    <script>
+      let interval = undefined;
+      const app = Vue.createApp({
+        data() {
+          return {
+            counter: 1,
+            array: [
+              { id: 1, class: "red" },
+              { id: 2, class: "blue" },
+              { id: 3, class: "red" },
+              { id: 4, class: "blue" },
+              { id: 5, class: "red" },
+            ],
+            result: [],
+          };
+        },
+        methods: {
+          start() {
+            interval = setInterval(() => {
+              this.result = [];
+              if (this.counter % 2 == 0) {
+                this.array.forEach((element) => {
+                  if (element.id % 2 == 0) {
+                    this.result.push(element);
+                  }
+                });
+              } else {
+                this.array.forEach((element) => {
+                  if (element.id % 2 != 0) {
+                    this.result.push(element);
+                  }
+                });
+              }
+              this.counter++;
+            }, 1000);
+          },
+          stop() {
+            clearInterval(interval);
+          },
+        },
+        computed: {
+          setClass() {
+            if (this.counter % 2 == 0) {
+              return "even";
+            } else return "odd";
+          },
+        },
+      }).mount("#app");
+    </script>
+  </body>
+</html>

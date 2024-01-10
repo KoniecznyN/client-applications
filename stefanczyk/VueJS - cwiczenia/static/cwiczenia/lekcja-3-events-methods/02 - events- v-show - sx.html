@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/lekcja2.css" />
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <title>Zad2</title>
+  </head>
+
+  <body>
+    <div id="app">
+      <button v-on:click="showElement">pokaż</button>
+      <h3 v-show="show">element</h3>
+    </div>
+    <script>
+      const app = Vue.createApp({
+        data() {
+          return { show: false };
+        },
+        methods: {
+          showElement() {
+            this.show = !this.show;
+          },
+        },
+      }).mount("#app");
+    </script>
+  </body>
+</html>

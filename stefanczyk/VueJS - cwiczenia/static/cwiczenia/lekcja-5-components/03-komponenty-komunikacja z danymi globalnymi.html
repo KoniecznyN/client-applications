@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <link rel="stylesheet" href="/css/lekcja5.css" />
+    <title>Document</title>
+    <style>
+      #child-component {
+        border: 1px solid black;
+        width: 100px;
+        height: 50px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="app">
+      <h3 v-text="title"></h3>
+      <items-component></items-component>
+      <change-title-component></change-title-component>
+    </div>
+
+    <script>
+      const appData = {
+        title: "03. Komponenty",
+        items: [
+          { text: "element1" },
+          { text: "element2" },
+          { text: "element3" },
+        ],
+      };
+
+      const ItemsComponent = {
+        data() {
+          return appData;
+        },
+        template: `
+            <div id="items-component2">
+                <h3>
+                    Items Component
+                </h3>
+                <ul>
+                    <li v-for="item in items">
+                        <label for="{{item.text}}">{{item.text}}</label><input type="checkbox" name="" id="{{item.text}}"> 
+                    </li>
+                </ul>
+            </div>
+            `,
+        methods: {},
+      };
+
+      const ChangeTitleComponent = {
+        data() {
+          return appData;
+        },
+        template: `
+            <div id="change-title-component2">
+                <input type="text" v-model="title">
+            </div>
+            `,
+        methods: {},
+      };
+
+      const AddItemComponent = {
+        data() {
+          return appData;
+        },
+        template: `
+            <div id="change-title-component2">
+                <input type="text" v-model="items">
+            </div>
+            `,
+        methods: {},
+      };
+
+      const app = Vue.createApp({
+        data() {
+          return appData;
+        },
+        methods: {},
+        components: {
+          "items-component": ItemsComponent,
+          "change-title-component": ChangeTitleComponent,
+        },
+      }).mount("#app");
+    </script>
+  </body>
+</html>

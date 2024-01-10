@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/lekcja2.css" />
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <title>Zad7</title>
+    <style>
+      #app,
+      .car,
+      .car2 {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      img {
+        width: 100%;
+        height: 80%;
+      }
+      .car {
+        flex-direction: column;
+        width: 150px;
+        height: 200px;
+        margin: 20px;
+        background-color: darkred;
+        color: white;
+      }
+      .car2 {
+        flex-direction: column;
+        width: 150px;
+        height: 200px;
+        margin: 20px;
+        background-color: lightcoral;
+        color: black;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="app">
+      <div v-for="car in cars" :class="setClass(car)">
+        <p>{{car.model}}-{{car.type}}-{{car.year}}</p>
+        <img :src="car.img" alt="ds" />
+      </div>
+    </div>
+    <script>
+      const app = Vue.createApp({
+        data() {
+          return {
+            cars: [
+              {
+                id: "1",
+                model: "Audi",
+                type: "Suv",
+                year: "2000",
+                img: "https://cdn.galleries.smcloud.net/t/galleries/gf-Frge-1sQz-ZYXG_taco-hemingway-664x442.jpg",
+              },
+              {
+                id: "2",
+                model: "Fiat",
+                type: "Pick-up",
+                year: "2003",
+                img: "https://cdn.galleries.smcloud.net/t/galleries/gf-Frge-1sQz-ZYXG_taco-hemingway-664x442.jpg",
+              },
+              {
+                id: "3",
+                model: "Seat",
+                type: "Combi",
+                year: "1997",
+                img: "https://cdn.galleries.smcloud.net/t/galleries/gf-Frge-1sQz-ZYXG_taco-hemingway-664x442.jpg",
+              },
+              {
+                id: "4",
+                model: "Ford",
+                type: "Combi",
+                year: "1986",
+                img: "https://cdn.galleries.smcloud.net/t/galleries/gf-Frge-1sQz-ZYXG_taco-hemingway-664x442.jpg",
+              },
+              {
+                id: "5",
+                model: "Audi",
+                type: "Suv",
+                year: "2005",
+                img: "https://cdn.galleries.smcloud.net/t/galleries/gf-Frge-1sQz-ZYXG_taco-hemingway-664x442.jpg",
+              },
+            ],
+          };
+        },
+        methods: {
+          setClass(e) {
+            if (e.year >= 2000) {
+              return "car";
+            } else return "car2";
+          },
+        },
+      }).mount("#app");
+    </script>
+  </body>
+</html>

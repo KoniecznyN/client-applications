@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/lekcja1.css" />
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <title>Document</title>
+  </head>
+
+  <body>
+    <div id="app">
+      <h1 v-text="title"></h1>
+      <h2>{{ Math.pow(2,5) }}</h2>
+      <h2>{{ new Date().getTime() }}</h2>
+      <h2>{{ Math.random() }}</h2>
+      <h2>{{x > 5 ? "tak" : "nie"}}</h2>
+      <h2 v-text="y.length < 5 ? 'tak' : 'nie'"></h2>
+    </div>
+    <script>
+      const app = Vue.createApp({
+        data() {
+          return {
+            title: "07: Dyrektywy",
+            x: 100,
+            y: "test",
+          };
+        },
+      }).mount("#app");
+
+      app.title += " VueJS";
+    </script>
+  </body>
+</html>

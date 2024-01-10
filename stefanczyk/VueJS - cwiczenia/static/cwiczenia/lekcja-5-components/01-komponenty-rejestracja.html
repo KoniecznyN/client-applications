@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/lekcja5.css">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <items-component></items-component>
+        <items-component></items-component>
+        <items-component></items-component>
+        <change-title-component></change-title-component>
+
+    </div>
+    <script>
+        const ItemsComponent = { template: `<div id="items-component">ItemsComponent</div>` }
+        const ChangeTitleComponent = { template: `<div id="change-title-component">ChangeTitleComponent</div>` }
+
+        const app = Vue.createApp({
+            data() { },
+            methods: {},
+            components: {
+                "items-component": ItemsComponent,
+                "change-title-component": ChangeTitleComponent
+            }
+        }).mount('#app')
+    </script>
+</body>
+
+</html>

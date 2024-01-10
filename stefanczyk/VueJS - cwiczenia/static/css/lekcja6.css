@@ -1,0 +1,42 @@
+* {
+    box-sizing: border-box;
+}
+
+#child-componentt {
+    border: 2px dotted blue;
+    width: 350px;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 10px;
+    margin: 10px;
+}
+
+#child-componentt>h3 {
+    color: red;
+    font-size: 2em;
+}
+
+#child-componentt>p {
+    color: gray;
+    text-decoration: underline;
+}
+
+#child-componentt>div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#child-componentt>div>#btn {
+    width: 30px;
+    height: 20px;
+    padding: 2px;
+    text-align: center;
+    background-color: red;
+    margin: 2px;
+    border-radius: 5px;
+    border: none;
+}

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <link rel="stylesheet" href="/css/lekcja5.css" />
+    <title>Zad4</title>
+    <style>
+      #child-component {
+        margin: 10px;
+        padding: 10px;
+        border: 3px dotted black;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="app">
+      <p>value: {{value}}</p>
+      <child-component :func-prop="updateData"></child-component>
+    </div>
+
+    <script>
+      const ChildComponent = {
+        template: `
+            <div id="child-component">
+                <button @click="add(111)">add 111</button>
+                <button @click="add(222)">add 222</button>
+                <button @click="add(333)">add 333</button>
+            </div>
+            `,
+        data() {
+          return {};
+        },
+        methods: {
+          add(val) {
+            this.funcProp(val);
+          },
+        },
+        props: ["funcProp"],
+      };
+
+      const app = Vue.createApp({
+        data() {
+          return { value: 0 };
+        },
+        methods: {
+          updateData(val) {
+            this.value += val;
+          },
+        },
+        components: {
+          "child-component": ChildComponent,
+        },
+      }).mount("#app");
+    </script>
+  </body>
+</html>

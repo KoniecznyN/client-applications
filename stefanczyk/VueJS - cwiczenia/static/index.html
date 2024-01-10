@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        const options = {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            },
+        };
+
+        fetch("/fetch", options)
+            .then(response => response.json()) // konwersja na obiekt json, jeśli konieczne
+            .then(data => {
+                console.log(data);
+                for (let i = 0; i < data.folders.length; i++) {
+                    const h3 = document.createElement("h3")
+                    const text = document.createTextNode(data.folders[i])
+                    h3.appendChild(text)
+                    document.body.appendChild(h3)
+                    for (let j = 0; j < data.lessons[i].length; j++) {
+                        const ul = document.createElement("ul")
+                        const li = document.createElement("li")
+                        const a = document.createElement("a")
+                        const text = document.createTextNode(data.lessons[i][j])
+                        a.setAttribute("href", data.lessons[i][j])
+                        a.appendChild(text)
+                        li.append(a)
+                        ul.append(li)
+                        document.body.appendChild(ul)
+                    }
+                }
+            })
+            .catch(error => console.log(error));
+
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <link rel="stylesheet" href="/css/lekcja5.css" />
+    <title>Zad4</title>
+    <style>
+      #items-comp,
+      #change-title-comp,
+      #add-item-comp {
+        margin: 10px;
+        padding: 10px;
+        border: 4px dotted black;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="app">
+      <h1>{{title}}</h1>
+      <br />
+      <items-comp></items-comp>
+      <change-title-comp></change-title-comp>
+      <add-item-comp></add-item-comp>
+    </div>
+    <script>
+      const appData = {
+        title: "app title",
+        items: [{ text: "element 1" }, { text: "element 2" }],
+      };
+
+      const ItemsComp = {
+        template: `
+        <div id="items-comp">
+          <h1>Items Component</h1>
+          <ul>
+            <li v-for="item in items">
+              {{item.text}}<input type="checkbox" name="" id="" />
+            </li>
+          </ul>
+        </div>
+        `,
+        data() {
+          return appData;
+        },
+      };
+
+      const ChangeTitleComp = {
+        template: `
+        <div id="change-title-comp">
+          <h1>Change Title Component</h1>
+          <input type="text" v-model="title">
+        </div>
+        `,
+        data() {
+          return appData;
+        },
+      };
+
+      const AddItemComp = {
+        template: `
+        <div id="add-item-comp">
+          <h1>Add Item Component</h1>
+          <input type="text" id="text" />
+          <button @click="addItem">Add</button>
+        </div>
+        `,
+        data() {
+          return appData;
+        },
+        methods: {
+          addItem() {
+            let value = document.getElementById("text").value;
+            this.items.push({ text: value });
+            document.getElementById("text").value = null;
+          },
+        },
+      };
+
+      const app = Vue.createApp({
+        data() {
+          return appData;
+        },
+        methods: {
+          changeTitle() {},
+        },
+        components: {
+          "items-comp": ItemsComp,
+          "change-title-comp": ChangeTitleComp,
+          "add-item-comp": AddItemComp,
+        },
+      }).mount("#app");
+    </script>
+  </body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/lekcja2.css" />
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <title>Zad3</title>
+    <style>
+      .active {
+        font-size: 2em;
+        color: red;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="app">
+      <input id="text" type="text" v-on:keyup.enter="addItem" />
+      <li v-for="item in items" :class="{'active':item.checked}">
+        {{item.text}}<input type="checkbox" v-model="item.checked" />
+      </li>
+    </div>
+    <script>
+      const app = Vue.createApp({
+        data() {
+          return {
+            show: false,
+            items: [
+              { text: "element 1", checked: true },
+              { text: "element 2", checked: false },
+              { text: "element 3", checked: false },
+            ],
+          };
+        },
+        methods: {
+          addItem() {
+            let value = document.getElementById("text").value;
+            this.items.push({ text: value, checked: false });
+            document.getElementById("text").value = null;
+          },
+        },
+      }).mount("#app");
+    </script>
+  </body>
+</html>

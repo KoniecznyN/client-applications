@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <link rel="stylesheet" href="/css/lekcja5.css" />
+    <title>Zad4</title>
+    <style>
+      #child-component {
+        margin: 10px;
+        padding: 10px;
+        border: 3px dotted black;
+        width: 250px;
+        height: 120px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="app">
+      <button @click="setData">set data</button>
+      <child-component
+        :prop-header="header"
+        :prop-name="firstName"
+        :prop-age="age"
+      ></child-component>
+      <child-component
+        :prop-header="header"
+        :prop-name="firstName"
+        :prop-age="age"
+      ></child-component>
+      <child-component
+        :prop-header="header"
+        :prop-name="firstName"
+        :prop-age="age"
+      ></child-component>
+    </div>
+
+    <script>
+      const ChildComponent = {
+        template: `
+            <div id="child-component">
+                <h1>{{propHeader}}</h1>
+                <p>Imię: {{propName}}</p>
+                <p>Wiek: {{propAge}}</p>
+            </div>
+            `,
+        data() {
+          return {};
+        },
+        props: ["propHeader", "propName", "propAge"],
+      };
+
+      const app = Vue.createApp({
+        data() {
+          return {
+            header: "default header",
+            firstName: "default name",
+            age: "default age",
+          };
+        },
+        methods: {
+          setData() {
+            this.header = "HEADER1";
+            this.firstName = "Jan";
+            this.age = "21";
+          },
+        },
+        components: {
+          "child-component": ChildComponent,
+        },
+      }).mount("#app");
+    </script>
+  </body>
+</html>

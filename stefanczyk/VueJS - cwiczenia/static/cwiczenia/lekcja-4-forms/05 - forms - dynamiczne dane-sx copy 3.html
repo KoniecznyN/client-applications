@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/lekcja2.css" />
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <title>Zad2</title>
+  </head>
+
+  <body>
+    <div id="app">
+      <p>Akcesoria</p>
+      <ul>
+        <template v-for="product in products">
+          <li>
+            <div>
+              <input
+                type="checkbox"
+                v-model="product.checked"
+                true-value="tak"
+                false-value="nie"
+              />{{product.name}}
+              <br />
+              <p>{{product.price}} {{product.currency}}</p>
+            </div>
+          </li>
+        </template>
+      </ul>
+      <p>Forma odbioru</p>
+      <ul>
+        <template v-for="option in options">
+          <li>
+            <div>
+              <input
+                type="radio"
+                name="a"
+                v-model="delivery"
+                :value="option.option"
+              />{{option.option}}
+              <br />
+            </div>
+          </li>
+        </template>
+        <select v-model="delivery">
+          <template v-for="option in options">
+            <option :value="option.option">{{option.option}}</option>
+          </template>
+        </select>
+      </ul>
+      <input type="checkbox" v-model="checkbox" />
+      <input type="submit" value="Wyślij" :disabled="isReady()" />
+    </div>
+    <script>
+      const app = Vue.createApp({
+        data() {
+          return {
+            products: [
+              { name: "Myszka", checked: "nie", price: 30, currency: "PLN" },
+              { name: "Laptop", checked: "nie", price: 2500, currency: "GBP" },
+              {
+                name: "Komputer",
+                checked: "nie",
+                price: 4000,
+                currency: "PLN",
+              },
+              { name: "Monitor", checked: "nie", price: 1000, currency: "GBP" },
+              { name: "Głośniki", checked: "nie", price: 600, currency: "USD" },
+            ],
+            options: [
+              { option: "Kurier" },
+              { option: "Poczta" },
+              { option: "Osobiście" },
+            ],
+            delivery: "",
+            checkbox: "",
+          };
+        },
+        methods: {
+          isReady() {
+            let products = false;
+            for (let i = 0; i < this.products.length; i++) {
+              if (this.products[i].checked == "tak") {
+                products = true;
+                break;
+              } else products = false;
+            }
+            if (products && this.delivery && this.checkbox) {
+              return false;
+            } else return true;
+          },
+        },
+        computed: {},
+      }).mount("#app");
+    </script>
+  </body>
+</html>

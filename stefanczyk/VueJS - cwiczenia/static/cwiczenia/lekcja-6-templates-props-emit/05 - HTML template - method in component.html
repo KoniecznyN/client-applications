@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <link rel="stylesheet" href="/css/lekcja6.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <child-component></child-component>
+        <child-component></child-component>
+        <child-component></child-component>
+    </div>
+
+    <template id="child-component">
+        <div id="child-componentt">
+            <p>to jest child-component</p>
+            <h3>{{a}}</h3>
+            <div>
+                <button id="btn" @click="addToRange(10)">+10</button>
+                <button id="btn" @click="deleteFromRange(10)">-10</button>
+                <button id="btn" @click="addToRange(1)">+1</button>
+                <button id="btn" @click="deleteFromRange(1)">-1</button>
+                <input type="range" name="range" id="range" min="0" max="1000" :value="a" @input="rangeHandler">
+            </div>
+        </div>
+    </template>
+    <script>
+        const ChildComponent = {
+            data() {
+                return {
+                    a: 200
+                }
+            },
+            template: '#child-component',
+            props: [],
+            methods: {
+                rangeHandler(e) {
+                    this.a = e.target.value
+                },
+                addToRange(value) {
+                    a = parseInt(this.a)
+                    if (a + value <= 1000) {
+                        a += value
+                        this.a = a
+                    } else alert('blad')
+                },
+                deleteFromRange(value) {
+                    a = parseInt(this.a)
+                    if (a - value >= 0) {
+                        a -= value
+                        this.a = a
+                    } else alert('blad')
+                }
+            }
+        }
+
+        const app = Vue.createApp({
+            data() { },
+            methods: {},
+            components: {
+                'child-component': ChildComponent
+            }
+        }).mount("#app")
+    </script>
+</body>
+
+</html>
