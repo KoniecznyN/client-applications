@@ -65,17 +65,14 @@ let game = {
               content: document.createElement("div"),
             };
             el.content.id = "el";
-            el.content.onmouseenter = () => {
-              this.playerShipsPlacement.bind(this)("enter", el);
-            };
-            el.content.onmouseleave = () => {
-              this.playerShipsPlacement.bind(this)("leave", el);
-            };
-            el.content.onclick = () => {
-              this.playerShipsPlacement.bind(this)("click", el);
-            };
+            el.content.onmouseover = this.highlightPlayerShip(el);
+            el.content.onmouseleave = this.unhighlightPlayerShip(el);
+            el.content.onclick = this.placePlayerShip(el);
             el.content.oncontextmenu = () => {
               this.direction = !this.direction;
+              document.getElementById("playerBoard").innerHTML = "";
+              this.createBoard("player");
+              this.updatePlayerBoard();
             };
             this.playerBoard[i][j] = el;
             row.append(el.content);
@@ -138,7 +135,7 @@ let game = {
     parentElement: undefined,
     elements: undefined,
   },
-  clickShip(event) {
+  placeShip(event) {
     if (
       this.clickedShip.ifClicked &&
       event.srcElement.parentElement != this.clickedShip.parentElement
@@ -160,198 +157,140 @@ let game = {
     console.log(this.clickedShip);
   },
   direction: true,
-  playerShipsPlacement(key, el) {
-    if (this.direction) {
-      if (this.clickedShip.ifClicked) {
-        let canPlace = true;
-        switch (key) {
-          case "enter":
-            for (let i = 0; i < this.clickedShip.ship; i++) {
-              if (el.x + 1 + i > this.width) {
-                if (
-                  this.playerBoard[el.y][this.width - 1 - i].content.id ==
-                    "elClicked" ||
-                  this.playerBoard[el.y][this.width - 1 - i].content.id ==
-                    "elDisabled"
-                ) {
-                  canPlace = false;
-                }
-              } else {
-                if (
-                  this.playerBoard[el.y][el.x + i].content.id == "elClicked" ||
-                  this.playerBoard[el.y][el.x + i].content.id == "elDisabled"
-                ) {
-                  canPlace = false;
-                }
-              }
+  highlightPlayerShip(el) {
+    return () => {
+      let canPlace = true;
+      if (this.direction) {
+        for (let i = 0; i < this.clickedShip.ship; i++) {
+          if (el.x + 1 + i > this.width) {
+            if (
+              this.playerBoard[el.y][this.width - 1 - i].content.id ==
+                "elClicked" ||
+              this.playerBoard[el.y][this.width - 1 - i].content.id ==
+                "elDisabled"
+            ) {
+              canPlace = false;
             }
+          } else {
+            if (
+              this.playerBoard[el.y][el.x + i].content.id == "elClicked" ||
+              this.playerBoard[el.y][el.x + i].content.id == "elDisabled"
+            ) {
+              canPlace = false;
+            }
+          }
+        }
 
-            if (canPlace) {
-              for (let i = 0; i < this.clickedShip.ship; i++) {
-                if (el.x + 1 + i > this.width) {
-                  this.playerBoard[el.y][
-                    this.width - 1 - i
-                  ].content.style.backgroundColor = "blue";
-                } else {
-                  this.playerBoard[el.y][
-                    el.x + i
-                  ].content.style.backgroundColor = "blue";
-                }
-              }
+        if (canPlace) {
+          for (let i = 0; i < this.clickedShip.ship; i++) {
+            if (el.x + 1 + i > this.width) {
+              this.playerBoard[el.y][
+                this.width - 1 - i
+              ].content.style.backgroundColor = "blue";
             } else {
-              for (let i = 0; i < this.clickedShip.ship; i++) {
-                if (el.x + 1 + i > this.width) {
-                  this.playerBoard[el.y][
-                    this.width - 1 - i
-                  ].content.style.backgroundColor = "red";
-                } else {
-                  this.playerBoard[el.y][
-                    el.x + i
-                  ].content.style.backgroundColor = "red";
-                }
-              }
+              this.playerBoard[el.y][el.x + i].content.style.backgroundColor =
+                "blue";
             }
-            break;
-          case "leave":
-            this.playerBoard.forEach((elements) => {
-              elements.forEach((element) => {
-                if (
-                  element.content.style.backgroundColor == "blue" ||
-                  element.content.style.backgroundColor == "red"
-                ) {
-                  element.content.style.backgroundColor = "";
-                }
-              });
-            });
-            break;
-          case "click":
-            for (let i = 0; i < this.playerBoard.length; i++) {
-              for (let j = 0; j < this.playerBoard[i].length; j++) {
-                if (
-                  this.playerBoard[i][j].content.style.backgroundColor == "blue"
-                ) {
-                  this.playerBoard[i][j].content.style.backgroundColor =
-                    "black";
-                  this.playerBoardScheme[i + 1][j + 1] = 1;
-                }
-                if (
-                  this.playerBoard[i][j].content.style.backgroundColor == "red"
-                ) {
-                  return;
-                }
-              }
+          }
+        } else {
+          for (let i = 0; i < this.clickedShip.ship; i++) {
+            if (el.x + 1 + i > this.width) {
+              this.playerBoard[el.y][
+                this.width - 1 - i
+              ].content.style.backgroundColor = "red";
+            } else {
+              this.playerBoard[el.y][el.x + i].content.style.backgroundColor =
+                "red";
             }
+          }
+        }
+      } else {
+        for (let i = 0; i < this.clickedShip.ship; i++) {
+          if (el.y + 1 + i > this.height) {
+            if (
+              this.playerBoard[this.height - 1 - i][el.x].content.id ==
+                "elClicked" ||
+              this.playerBoard[this.height - 1 - i][el.x].content.id ==
+                "elDisabled"
+            ) {
+              canPlace = false;
+            }
+          } else {
+            if (
+              this.playerBoard[el.y + i][el.x].content.id == "elClicked" ||
+              this.playerBoard[el.y + i][el.x].content.id == "elDisabled"
+            ) {
+              canPlace = false;
+            }
+          }
+        }
 
-            this.updatePlayerBoard();
-
-            console.log(this.playerBoardScheme);
-
-            this.clickedShip.parentElement.style.display = "none";
-            this.clickedShip = {
-              ifClicked: false,
-              ship: 0,
-              parentElement: undefined,
-              elements: undefined,
-            };
-            break;
+        if (canPlace) {
+          for (let i = 0; i < this.clickedShip.ship; i++) {
+            if (el.y + 1 + i > this.height) {
+              this.playerBoard[this.height - 1 - i][
+                el.x
+              ].content.style.backgroundColor = "blue";
+            } else {
+              this.playerBoard[el.y + i][el.x].content.style.backgroundColor =
+                "blue";
+            }
+          }
+        } else {
+          for (let i = 0; i < this.clickedShip.ship; i++) {
+            if (el.y + 1 + i > this.height) {
+              this.playerBoard[this.height - 1 - i][
+                el.x
+              ].content.style.backgroundColor = "red";
+            } else {
+              this.playerBoard[el.y + i][el.x].content.style.backgroundColor =
+                "red";
+            }
+          }
         }
       }
-    } else {
-      if (this.clickedShip.ifClicked) {
-        let canPlace = true;
-        switch (key) {
-          case "enter":
-            for (let i = 0; i < this.clickedShip.ship; i++) {
-              if (el.y + 1 + i > this.height) {
-                if (
-                  this.playerBoard[this.height - 1 - i][el.x].content.id ==
-                    "elClicked" ||
-                  this.playerBoard[this.height - 1 - i][el.x].content.id ==
-                    "elDisabled"
-                ) {
-                  canPlace = false;
-                }
-              } else {
-                if (
-                  this.playerBoard[el.y + i][el.x].content.id == "elClicked" ||
-                  this.playerBoard[el.y + i][el.x].content.id == "elDisabled"
-                ) {
-                  canPlace = false;
-                }
-              }
-            }
-
-            if (canPlace) {
-              for (let i = 0; i < this.clickedShip.ship; i++) {
-                if (el.y + 1 + i > this.height) {
-                  this.playerBoard[this.height - 1 - i][
-                    el.x
-                  ].content.style.backgroundColor = "blue";
-                } else {
-                  this.playerBoard[el.y + i][
-                    el.x
-                  ].content.style.backgroundColor = "blue";
-                }
-              }
-            } else {
-              for (let i = 0; i < this.clickedShip.ship; i++) {
-                if (el.y + 1 + i > this.height) {
-                  this.playerBoard[this.height - 1 - i][
-                    el.x
-                  ].content.style.backgroundColor = "red";
-                } else {
-                  this.playerBoard[el.y + i][
-                    el.x
-                  ].content.style.backgroundColor = "red";
-                }
-              }
-            }
-            break;
-          case "leave":
-            this.playerBoard.forEach((elements) => {
-              elements.forEach((element) => {
-                if (
-                  element.content.style.backgroundColor == "blue" ||
-                  element.content.style.backgroundColor == "red"
-                ) {
-                  element.content.style.backgroundColor = "";
-                }
-              });
-            });
-            break;
-          case "click":
-            for (let i = 0; i < this.playerBoard.length; i++) {
-              for (let j = 0; j < this.playerBoard[i].length; j++) {
-                if (
-                  this.playerBoard[i][j].content.style.backgroundColor == "blue"
-                ) {
-                  this.playerBoard[i][j].content.style.backgroundColor =
-                    "black";
-                  this.playerBoardScheme[i + 1][j + 1] = 1;
-                }
-                if (
-                  this.playerBoard[i][j].content.style.backgroundColor == "red"
-                ) {
-                  return;
-                }
-              }
-            }
-
-            this.updatePlayerBoard();
-
-            console.log(this.playerBoardScheme);
-
-            this.clickedShip.parentElement.style.display = "none";
-            this.clickedShip = {
-              ifClicked: false,
-              ship: 0,
-              parentElement: undefined,
-              elements: undefined,
-            };
-            break;
+    };
+  },
+  unhighlightPlayerShip(el) {
+    return () => {
+      this.playerBoard.forEach((elements) => {
+        elements.forEach((element) => {
+          if (
+            element.content.style.backgroundColor == "blue" ||
+            element.content.style.backgroundColor == "red"
+          ) {
+            element.content.style.backgroundColor = "";
+          }
+        });
+      });
+    };
+  },
+  placePlayerShip(el) {
+    return () => {
+      for (let i = 0; i < this.playerBoard.length; i++) {
+        for (let j = 0; j < this.playerBoard[i].length; j++) {
+          if (this.playerBoard[i][j].content.style.backgroundColor == "blue") {
+            this.playerBoard[i][j].content.style.backgroundColor = "black";
+            this.playerBoardScheme[i + 1][j + 1] = 1;
+          }
+          if (this.playerBoard[i][j].content.style.backgroundColor == "red") {
+            return;
+          }
         }
       }
-    }
+
+      this.updatePlayerBoard();
+
+      console.log(this.playerBoardScheme);
+
+      this.clickedShip.parentElement.style.display = "none";
+      this.clickedShip = {
+        ifClicked: false,
+        ship: 0,
+        parentElement: undefined,
+        elements: undefined,
+      };
+    };
   },
   updatePlayerBoard() {
     for (let i = 0; i < this.playerBoardScheme.length; i++) {
