@@ -15,7 +15,6 @@ const game = {
   x: 6,
   y: 3,
   init() {
-    console.log(this.locations);
     this.displayLocation(this.x, this.y);
   },
   locations: [
@@ -217,40 +216,25 @@ const game = {
       ),
     ],
   ],
-  getDirection(x, y) {
-    let result = "";
-    let directions = this.locations[y][x].directions;
-    for (let i = 0; i < directions.length; i++) {
-      switch (directions[i]) {
-        case "N":
-          result += "NORTH";
-          break;
-        case "S":
-          result += "SOUTH";
-          break;
-        case "E":
-          result += "EAST";
-          break;
-        case "W":
-          result += "WEST";
-          break;
-      }
-      if (i != directions.length - 1) {
-        result += ", ";
-      }
-    }
-    return result;
+  directions: {
+    N: "NORTH",
+    S: "SOUTH",
+    W: "WEST",
+    E: "EAST",
   },
   displayLocation() {
-    const game = document.getElementById("game");
-    template = `
+    let where = this.locations[this.y][this.x].directions
+      .map((element) => this.directions[element])
+      .join(", ");
+    console.log(Object.entries(this.directions));
+    const template = `
         <h2>${this.locations[this.y][this.x].description}</h2>
         <img src="./img/${
           this.locations[this.y][this.x].src
         }" style="background-color: ${
       this.locations[this.y][this.x].color
     }" alt="location">
-        <p>You can go ${this.getDirection(this.x, this.y)}</p>
+        <p>You can go ${where}</p>
         <p>You see nothing</p>
         <p>You are carrying nothing</p>
         <label for="action">What now?</label>
@@ -311,4 +295,5 @@ const game = {
     this.displayLocation();
   },
 };
+
 game.init();
