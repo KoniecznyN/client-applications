@@ -15,7 +15,7 @@ const game = {
   x: 6,
   y: 3,
   init() {
-    this.displayLocation(this.x, this.y);
+    this.displayLocation();
   },
   locations: [
     [
@@ -226,7 +226,6 @@ const game = {
     let where = this.locations[this.y][this.x].directions
       .map((element) => this.directions[element])
       .join(", ");
-    console.log(Object.entries(this.directions));
     const template = `
         <h2>${this.locations[this.y][this.x].description}</h2>
         <img src="./img/${
@@ -237,62 +236,69 @@ const game = {
         <p>You can go ${where}</p>
         <p>You see nothing</p>
         <p>You are carrying nothing</p>
-        <label for="action">What now?</label>
+        <label id="eventText" for="action">What now?</label>
         <input type="text" name="action" id="action" autofocus>
         `;
 
     document.getElementById("game").innerHTML = template;
     document.getElementById("action").addEventListener("keypress", (event) => {
       if (event.key === "Enter") {
-        this.move();
-        document.getElementById("action").focus();
+        this.action();
       }
     });
     window.onclick = () => {
       document.getElementById("action").focus();
     };
   },
-  move() {
+  action() {
     let direction = {};
-    switch (document.getElementById("action").value.toUpperCase()) {
-      case "N":
-        direction = { shortcut: "N", vector: { x: 0, y: -1 } };
-        break;
+    let input = document.getElementById("action").value.toUpperCase();
+    let possibleDirections = this.locations[this.y][this.x].directions;
+    let canGo = false;
+
+    Object.entries(this.directions).forEach((element) => {
+      if (input == element[0] || input == element[1]) {
+        input = element[1];
+      }
+    });
+
+    switch (input) {
       case "NORTH":
         direction = { shortcut: "N", vector: { x: 0, y: -1 } };
-        break;
-      case "S":
-        direction = { shortcut: "S", vector: { x: 0, y: 1 } };
         break;
       case "SOUTH":
         direction = { shortcut: "S", vector: { x: 0, y: 1 } };
         break;
-      case "E":
-        direction = { shortcut: "E", vector: { x: 1, y: 0 } };
-        break;
       case "EAST":
         direction = { shortcut: "E", vector: { x: 1, y: 0 } };
-        break;
-      case "W":
-        direction = { shortcut: "W", vector: { x: -1, y: 0 } };
         break;
       case "WEST":
         direction = { shortcut: "W", vector: { x: -1, y: 0 } };
         break;
       default:
         document.getElementById("action").value = "";
+        return;
     }
 
-    let possibleDirections = this.locations[this.y][this.x].directions;
-
-    for (let i = 0; i < possibleDirections.length; i++) {
-      if (possibleDirections[i] == direction.shortcut) {
-        this.x += direction.vector.x;
-        this.y += direction.vector.y;
+    possibleDirections.forEach((element) => {
+      if (element == direction.shortcut) {
+        canGo = true;
       }
+    });
+
+    if (canGo) {
+      this.x += direction.vector.x;
+      this.y += direction.vector.y;
+      document.getElementById("eventText").innerText = `You are going ${input}`;
+    } else {
+      document.getElementById("eventText").innerText = `You can't go that way`;
     }
 
-    this.displayLocation();
+    document.getElementById("action").style.display = "none";
+    setTimeout(() => {
+      this.displayLocation();
+      document.getElementById("action").focus();
+    }, 1000);
   },
 };
 
