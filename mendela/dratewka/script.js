@@ -221,37 +221,68 @@ const game = {
     S: "SOUTH",
     W: "WEST",
     E: "EAST",
+    V: "VOCABULARY",
+    G: "GOSSIP",
   },
   displayLocation() {
-    let where = this.locations[this.y][this.x].directions
+    let directions = this.locations[this.y][this.x].directions;
+    let where = directions
       .map((element) => this.directions[element])
       .join(", ");
+
     const template = `
         <h2>${this.locations[this.y][this.x].description}</h2>
-        <img src="./img/${
-          this.locations[this.y][this.x].src
-        }" style="background-color: ${
+        <div id="images">
+          <img id="location" src="./img/${
+            this.locations[this.y][this.x].src
+          }" style="background-color: ${
       this.locations[this.y][this.x].color
     }" alt="location">
-        <p>You can go ${where}</p>
-        <p>You see nothing</p>
-        <p>You are carrying nothing</p>
-        <label id="eventText" for="action">What now?</label>
-        <input type="text" name="action" id="action" autofocus>
+          <img id="compas" src="./compas.png" alt="compas" />
+          <div id="coverN"></div>
+          <div id="coverS"></div>
+          <div id="coverE"></div>
+          <div id="coverW"></div>
+        </div>
+        <div id="textarea">
+          <p>You can go ${where}</p>
+          <p>You see nothing</p>
+          <p>You are carrying nothing</p>
+          <label id="eventText" for="action">What now?</label>
+          <input type="text" name="action" id="action" autofocus>
+        </div>
         `;
 
     document.getElementById("game").innerHTML = template;
+
+    directions.forEach((element) => {
+      if (element == "N") {
+        document.getElementById("coverN").style.display = "none";
+      }
+      if (element == "S") {
+        document.getElementById("coverS").style.display = "none";
+      }
+      if (element == "E") {
+        document.getElementById("coverE").style.display = "none";
+      }
+      if (element == "W") {
+        document.getElementById("coverW").style.display = "none";
+      }
+    });
+
     document.getElementById("action").addEventListener("keypress", (event) => {
       if (event.key === "Enter") {
         this.action();
       }
     });
+
     window.onclick = () => {
       document.getElementById("action").focus();
     };
   },
   action() {
     let direction = {};
+    let action = "";
     let input = document.getElementById("action").value.toUpperCase();
     let possibleDirections = this.locations[this.y][this.x].directions;
     let canGo = false;
@@ -262,22 +293,21 @@ const game = {
       }
     });
 
-    switch (input) {
-      case "NORTH":
-        direction = { shortcut: "N", vector: { x: 0, y: -1 } };
-        break;
-      case "SOUTH":
-        direction = { shortcut: "S", vector: { x: 0, y: 1 } };
-        break;
-      case "EAST":
-        direction = { shortcut: "E", vector: { x: 1, y: 0 } };
-        break;
-      case "WEST":
-        direction = { shortcut: "W", vector: { x: -1, y: 0 } };
-        break;
-      default:
-        document.getElementById("action").value = "";
-        return;
+    if (input == "NORTH") {
+      direction = { shortcut: "N", vector: { x: 0, y: -1 } };
+    } else if (input == "SOUTH") {
+      direction = { shortcut: "S", vector: { x: 0, y: 1 } };
+    } else if (input == "EAST") {
+      direction = { shortcut: "E", vector: { x: 1, y: 0 } };
+    } else if (input == "WEST") {
+      direction = { shortcut: "W", vector: { x: -1, y: 0 } };
+    } else if (input == "VOCABULARY") {
+      action = "V";
+    } else if (input == "GOSSIP") {
+      action = "G";
+    } else {
+      document.getElementById("action").value = "";
+      return;
     }
 
     possibleDirections.forEach((element) => {
@@ -286,15 +316,56 @@ const game = {
       }
     });
 
+    if (action.length != 0) {
+      let template = "";
+      if (action == "V") {
+        template = `
+          <p>NORTH or N, SOUTH or S</p>
+          <p>WEST or W, EAST or E</p>
+          <p>TAKE (object) or T (object)</p>
+          <p>DROP (object) or D (object)</p>
+          <p>USE (object) or U (object)</p>
+          <p>GOSSIPS or G, VOCABULARY or V</p>
+          </br>
+          <p>Press any key...</p>
+          `;
+      } else if (action == "G") {
+        template = `
+          <p>The  woodcutter lost  his home key...</p>
+          <p>The butcher likes fruit... The cooper</p>
+          <p>is greedy... Dratewka plans to make a</p>
+          <p>poisoned  bait for the dragon...  The</p>
+          <p>tavern owner is buying food  from the</p>
+          <p>pickers... Making a rag from a bag...</p>
+          </br>
+          <p>Press any key...</p>
+          `;
+      }
+
+      document.getElementById("textarea").innerHTML = template;
+      window.addEventListener(
+        "keydown",
+        (vocabulary = () => {
+          this.displayLocation();
+          document.getElementById("action").focus();
+          window.removeEventListener("keydown", vocabulary);
+        })
+      );
+      return;
+    }
+
     if (canGo) {
       this.x += direction.vector.x;
       this.y += direction.vector.y;
-      document.getElementById("eventText").innerText = `You are going ${input}`;
+      document.getElementById(
+        "textarea"
+      ).innerHTML = `<p>You are going ${input}</p>`;
     } else {
-      document.getElementById("eventText").innerText = `You can't go that way`;
+      document.getElementById(
+        "textarea"
+      ).innerHTML = `<p>You can't go that way</p>`;
     }
 
-    document.getElementById("action").style.display = "none";
     setTimeout(() => {
       this.displayLocation();
       document.getElementById("action").focus();

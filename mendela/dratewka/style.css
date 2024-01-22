@@ -18,29 +18,69 @@ body {
   margin: 50px;
 }
 
-#game > * {
+#game > h2,
+#game > #images > #location,
+#game > #textarea > * {
   margin: 12px;
 }
 
 #game > h2,
-#game > p,
-#game > label,
-#game > input[type="text"] {
+#game > #textarea > p,
+#game > #textarea > label,
+#game > #textarea > input[type="text"] {
   color: #72cc52;
 }
 
-#game > img {
+#game > #images > #location {
   border: 3px solid #1c6600;
   border-radius: 3px;
   width: 400px;
 }
 
-#game > input[type="text"] {
+#game > #images > #compas {
+  position: relative;
+  margin-left: 30px;
+  margin-bottom: 50px;
+  width: 300px;
+}
+
+#coverN,
+#coverS,
+#coverE,
+#coverW {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background-color: #15330a;
+  /* border: 3px #72cc52 solid; */
+}
+
+#coverN {
+  top: 168px;
+  left: 650px;
+}
+
+#coverS {
+  top: 292px;
+  left: 658px;
+}
+
+#coverE {
+  top: 208px;
+  left: 785px;
+}
+
+#coverW {
+  top: 208px;
+  left: 533px;
+}
+
+#game > #textarea > input[type="text"] {
   border: none;
   background-color: #15330a;
   text-transform: uppercase;
 }
 
-#game > input[type="text"]:focus {
+#game > #textarea > input[type="text"]:focus {
   outline: none;
 }
