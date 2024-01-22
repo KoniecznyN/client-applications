@@ -345,10 +345,10 @@ const game = {
       document.getElementById("textarea").innerHTML = template;
       window.addEventListener(
         "keydown",
-        (vocabulary = () => {
+        (action = () => {
           this.displayLocation();
           document.getElementById("action").focus();
-          window.removeEventListener("keydown", vocabulary);
+          window.removeEventListener("keydown", action);
         })
       );
       return;
