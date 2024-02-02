@@ -38,7 +38,9 @@ body {
 }
 
 #game > #images > #compas {
-  position: relative;
+  position: absolute;
+  left: 490px;
+  top: 175px;
   margin-left: 30px;
   margin-bottom: 50px;
   width: 300px;
@@ -56,22 +58,22 @@ body {
 }
 
 #coverN {
-  top: 168px;
+  top: 172px;
   left: 650px;
 }
 
 #coverS {
-  top: 292px;
+  top: 296px;
   left: 658px;
 }
 
 #coverE {
-  top: 208px;
+  top: 212px;
   left: 785px;
 }
 
 #coverW {
-  top: 208px;
+  top: 212px;
   left: 533px;
 }
 
@@ -79,6 +81,7 @@ body {
   border: none;
   background-color: #15330a;
   text-transform: uppercase;
+  margin-top: 20px;
 }
 
 #game > #textarea > input[type="text"]:focus {
