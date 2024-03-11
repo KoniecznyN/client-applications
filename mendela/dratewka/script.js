@@ -52,12 +52,33 @@ const game = {
           <p>You can go ${what}</p>
           <p>You see ${items}</p>
           <p>You are carrying ${this.itemCarried.inputName}</p>
-          <label id="eventText" for="action">What now?</label>
-          <input type="text" name="action" id="action" autofocus>
+          <p id="eventText" style="float: left;">What now?</p>
+          <p id="action" style="float: left;"></p>
         </div>
         `;
 
     document.getElementById("game").innerHTML = template;
+
+    const input = document.getElementById("action");
+    let string = "";
+    window.onkeydown = (event) => {
+      console.log(event.key);
+      if (event.key == "Backspace") {
+        string = string.slice(0, -1);
+      } else if (event.key == "Alt") {
+      } else if (event.key == "Shift") {
+      } else if (event.key == "Control") {
+      } else if (event.key == "AltGraph") {
+      } else if (event.key == "CapsLock") {
+      } else if (event.key == "Tab") {
+      } else if (event.key == "Meta") {
+      } else if (event.key == "Enter") {
+        this.action(input.innerHTML);
+      } else {
+        string += event.key;
+      }
+      input.innerHTML = string.toUpperCase();
+    };
 
     directions.forEach((element) => {
       if (element == "N") {
@@ -74,26 +95,12 @@ const game = {
       }
     });
 
-    let keyPress;
-    window.addEventListener(
-      "keypress",
-      (keyPress = (event) => {
-        console.log(event.key);
-        if (event.key == "Enter") {
-          this.action();
-          window.removeEventListener("keypress", keyPress);
-        }
-      })
-    );
-
-    window.onclick = () => {
-      document.getElementById("action").focus();
-    };
+    window.onclick = () => {};
   },
-  action() {
+  action(string) {
     let direction = {};
     let action = "";
-    let input = document.getElementById("action").value.toUpperCase();
+    let input = string.toUpperCase();
     input = input.split(" ");
     let possibleDirections = locations[this.y][this.x].directions;
     let canGo = false;
@@ -179,9 +186,9 @@ const game = {
     } else if (input[0] == "GOSSIP") {
       action = "G";
     } else {
-      this.displayLocation();
-      document.getElementById("action").focus();
-      return;
+      document.getElementById(
+        "eventText"
+      ).innerText = `Try another word or V for vocabulary`;
     }
 
     //poruszanie sie
@@ -238,7 +245,6 @@ const game = {
         "keypress",
         (keyPress = () => {
           this.displayLocation();
-          document.getElementById("action").focus();
           window.removeEventListener("keypress", keyPress);
         })
       );
@@ -257,7 +263,6 @@ const game = {
     document.getElementById("action").style.display = "none";
     setTimeout(() => {
       this.displayLocation();
-      document.getElementById("action").focus();
     }, 1000);
   },
 };
