@@ -114,6 +114,8 @@ const game = {
       } else if (event.key == "Meta") {
       } else if (event.key == "Enter") {
         this.action(input.innerHTML);
+      } else if (event.key == "Backspace") {
+        string += " ";
       } else {
         string += event.key;
       }
