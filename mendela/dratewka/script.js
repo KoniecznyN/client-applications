@@ -1,15 +1,50 @@
 import { locations } from "./data/locations.js";
+import { items } from "./data/items.js";
 import { displayItem } from "./data/items.js";
 
-console.log(locations);
+var marker = document.createElement("div");
+marker.style.width = "16px";
+marker.style.height = "16px";
+marker.style.backgroundColor = "#72cc52";
+marker.style.float = "left";
 
 const game = {
-  x: 6,
-  y: 3,
+  x: 6, //6
+  y: 3, //3
+  sheepParts: 0,
+  dragonAlive: true,
   init() {
-    this.displayLocation();
+    const game = document.getElementById("game");
+    const img = document.createElement("img");
+    game.style.display = "none";
+
+    document.body.append(img);
+    img.id = "img";
+    img.src = "./img/czołówka.jpg";
+
+    const audio = document.createElement("audio");
+    audio.src = "./hejnal_mariacki.mp3";
+    audio.style.display = "none";
+    document.body.append(audio);
+    audio.play();
+
+    window.onkeydown = () => {
+      img.src = "./img/opis_A.jpg";
+      window.onkeydown = () => {
+        img.src = "./img/opis_B.jpg";
+        window.onkeydown = () => {
+          game.style.display = "block";
+          img.style.display = "none";
+
+          audio.pause();
+          this.displayLocation();
+
+          window.removeEventListener(onkeydown, () => {});
+        };
+      };
+    };
   },
-  itemCarried: { inputName: "nothing" },
+  itemCarried: { inputName: "nothing" }, //{ inputName: "nothing" }
   inputActions: {
     N: "NORTH",
     S: "SOUTH",
@@ -17,6 +52,7 @@ const game = {
     E: "EAST",
     T: "TAKE",
     D: "DROP",
+    U: "USE",
     V: "VOCABULARY",
     G: "GOSSIP",
   },
@@ -59,10 +95,14 @@ const game = {
 
     document.getElementById("game").innerHTML = template;
 
+    marker.style.display = "block";
+    document.getElementById("action").style.marginRight = 0;
+    marker.style.marginLeft = 0;
+    document.getElementById("textarea").append(marker);
+
     const input = document.getElementById("action");
     let string = "";
     window.onkeydown = (event) => {
-      console.log(event.key);
       if (event.key == "Backspace") {
         string = string.slice(0, -1);
       } else if (event.key == "Alt") {
@@ -78,6 +118,10 @@ const game = {
         string += event.key;
       }
       input.innerHTML = string.toUpperCase();
+
+      document.getElementById("action").style.marginRight = 0;
+      marker.style.marginLeft = 0;
+      document.getElementById("textarea").append(marker);
     };
 
     directions.forEach((element) => {
@@ -97,7 +141,11 @@ const game = {
 
     window.onclick = () => {};
   },
-  action(string) {
+  async action(string) {
+    window.onkeydown = (event) => {
+      return false;
+    };
+    marker.style.display = "none";
     let direction = {};
     let action = "";
     let input = string.toUpperCase();
@@ -127,7 +175,10 @@ const game = {
       let itemExist = false;
       let itemIndex = 0;
       for (let i = 0; i < locations[this.y][this.x].item.length; i++) {
-        if (locations[this.y][this.x].item[i].name == input[input.length - 1]) {
+        if (
+          locations[this.y][this.x].item[i].name.toUpperCase() ==
+          input[input.length - 1]
+        ) {
           itemExist = true;
           itemIndex = i;
           break;
@@ -135,13 +186,19 @@ const game = {
       }
       if (itemExist) {
         if (this.itemCarried.inputName == "nothing") {
-          document.getElementById("eventText").innerText = `You are taking ${
-            locations[this.y][this.x].item[itemIndex].inputName
-          }`;
-          this.itemCarried = locations[this.y][this.x].item[itemIndex];
-          locations[this.y][this.x].item.splice(itemIndex, 1);
-          if (locations[this.y][this.x].item.length == 0) {
-            locations[this.y][this.x].item.push({ inputName: "nothing" });
+          if (locations[this.y][this.x].item[itemIndex].flag == 1) {
+            document.getElementById("eventText").innerText = `You are taking ${
+              locations[this.y][this.x].item[itemIndex].inputName
+            }`;
+            this.itemCarried = locations[this.y][this.x].item[itemIndex];
+            locations[this.y][this.x].item.splice(itemIndex, 1);
+            if (locations[this.y][this.x].item.length == 0) {
+              locations[this.y][this.x].item.push({ inputName: "nothing" });
+            }
+          } else {
+            document.getElementById(
+              "eventText"
+            ).innerText = `You can't carry it`;
           }
         } else {
           document.getElementById(
@@ -180,6 +237,275 @@ const game = {
       }
     }
 
+    //use
+    else if (input[0] == "USE") {
+      if (this.itemCarried.inputName != "nothing") {
+        if (this.itemCarried.name == "KEY" && this.y == 4 && this.x == 5) {
+          this.itemCarried = displayItem(items, "AXE");
+          document.getElementById(
+            "eventText"
+          ).innerText = `You opened a tool shed and took an axe`;
+        } else if (
+          this.itemCarried.name == "AXE" &&
+          this.y == 5 &&
+          this.x == 6
+        ) {
+          this.itemCarried = displayItem(items, "STICKS");
+          document.getElementById(
+            "eventText"
+          ).innerText = `You cut sticks for sheeplegs`;
+        } else if (
+          this.itemCarried.name == "STICKS" &&
+          this.y == 3 &&
+          this.x == 2
+        ) {
+          if (locations[this.y][this.x].item[0].inputName != "nothing") {
+            locations[this.y][this.x].item.push(
+              displayItem(items, "sheeplegs")
+            );
+          } else {
+            locations[this.y][this.x].item[0] = displayItem(items, "sheeplegs");
+          }
+          document.getElementById(
+            "eventText"
+          ).innerText = `You prepared legs for your fake sheep`;
+          this.sheepParts++;
+          this.itemCarried = { inputName: "nothing" };
+        } else if (
+          this.itemCarried.name == "MUSHROOMS" &&
+          this.y == 2 &&
+          this.x == 3
+        ) {
+          this.itemCarried = displayItem(items, "MONEY");
+          document.getElementById(
+            "eventText"
+          ).innerText = `The tavern owner paid you money`;
+        } else if (
+          this.itemCarried.name == "MONEY" &&
+          this.y == 2 &&
+          this.x == 6
+        ) {
+          this.itemCarried = displayItem(items, "BARREL");
+          document.getElementById(
+            "eventText"
+          ).innerText = `The cooper sold you a new barrel`;
+        } else if (
+          this.itemCarried.name == "BARREL" &&
+          this.y == 3 &&
+          this.x == 2
+        ) {
+          if (locations[this.y][this.x].item[0].inputName != "nothing") {
+            locations[this.y][this.x].item.push(
+              displayItem(items, "sheeptrunk")
+            );
+          } else {
+            locations[this.y][this.x].item[0] = displayItem(
+              items,
+              "sheeptrunk"
+            );
+          }
+          document.getElementById(
+            "eventText"
+          ).innerText = `You made a nice sheeptrunk`;
+          this.sheepParts++;
+          this.itemCarried = { inputName: "nothing" };
+        } else if (
+          this.itemCarried.name == "BERRIES" &&
+          this.y == 2 &&
+          this.x == 5
+        ) {
+          this.itemCarried = displayItem(items, "WOOL");
+          document.getElementById(
+            "eventText"
+          ).innerText = `The butcher gave you wool`;
+        } else if (
+          this.itemCarried.name == "WOOL" &&
+          this.y == 3 &&
+          this.x == 2
+        ) {
+          if (locations[this.y][this.x].item[0].inputName != "nothing") {
+            locations[this.y][this.x].item.push(
+              displayItem(items, "sheepskin")
+            );
+          } else {
+            locations[this.y][this.x].item[0] = displayItem(items, "sheepskin");
+          }
+          document.getElementById(
+            "eventText"
+          ).innerText = `You prepared skin for your fake sheep`;
+          this.sheepParts++;
+          this.itemCarried = { inputName: "nothing" };
+        } else if (
+          this.itemCarried.name == "BAG" &&
+          this.y == 4 &&
+          this.x == 6
+        ) {
+          this.itemCarried = displayItem(items, "RAG");
+          document.getElementById(
+            "eventText"
+          ).innerText = `You used your tools to make a rag`;
+        } else if (
+          this.itemCarried.name == "RAG" &&
+          this.y == 3 &&
+          this.x == 2
+        ) {
+          if (locations[this.y][this.x].item[0].inputName != "nothing") {
+            locations[this.y][this.x].item.push(
+              displayItem(items, "sheephead")
+            );
+          } else {
+            locations[this.y][this.x].item[0] = displayItem(items, "sheephead");
+          }
+          document.getElementById(
+            "eventText"
+          ).innerText = `You made a fake sheephead`;
+          this.sheepParts++;
+          this.itemCarried = { inputName: "nothing" };
+        } else if (
+          this.itemCarried.name == "SPADE" &&
+          this.y == 0 &&
+          this.x == 0
+        ) {
+          this.itemCarried = displayItem(items, "SULPHUR");
+          document.getElementById("action").style.display = "none";
+          document.getElementById("eventText").innerText = `You are digging...`;
+
+          await new Promise((resolve) => {
+            setTimeout(() => {
+              document.getElementById("eventText").innerText = `and digging...`;
+              resolve();
+            }, 1000);
+          });
+
+          await new Promise((resolve) => {
+            setTimeout(() => {
+              document.getElementById(
+                "eventText"
+              ).innerText = `That's enough sulphur for you`;
+              resolve();
+            }, 1000);
+          });
+        } else if (
+          this.itemCarried.name == "SULPHUR" &&
+          this.y == 3 &&
+          this.x == 2
+        ) {
+          if (locations[this.y][this.x].item[0].inputName != "nothing") {
+            locations[this.y][this.x].item.push(
+              displayItem(items, "solid poison")
+            );
+          } else {
+            locations[this.y][this.x].item[0] = displayItem(
+              items,
+              "solid poison"
+            );
+          }
+          document.getElementById(
+            "eventText"
+          ).innerText = `You prepared a solid poison`;
+          this.sheepParts++;
+          this.itemCarried = { inputName: "nothing" };
+        } else if (
+          this.itemCarried.name == "BUCKET" &&
+          this.y == 1 &&
+          this.x == 0
+        ) {
+          this.itemCarried = displayItem(items, "TAR");
+          document.getElementById(
+            "eventText"
+          ).innerText = `You got a bucket full of tar`;
+        } else if (
+          this.itemCarried.name == "TAR" &&
+          this.y == 3 &&
+          this.x == 2
+        ) {
+          if (locations[this.y][this.x].item[0].inputName != "nothing") {
+            locations[this.y][this.x].item.push(
+              displayItem(items, "liquid poison")
+            );
+          } else {
+            locations[this.y][this.x].item[0] = displayItem(
+              items,
+              "liquid poison"
+            );
+          }
+          document.getElementById(
+            "eventText"
+          ).innerText = `You prepared a liquid poison`;
+          this.sheepParts++;
+          this.itemCarried = { inputName: "nothing" };
+        } else if (
+          this.itemCarried.name == "SHEEP" &&
+          this.y == 3 &&
+          this.x == 2
+        ) {
+          this.dragonAlive = false;
+          if (locations[this.y][this.x].item[0].inputName != "nothing") {
+            locations[this.y][this.x].item.push(
+              displayItem(items, "dead dragon")
+            );
+          } else {
+            locations[this.y][this.x].item[0] = displayItem(
+              items,
+              "dead dragon"
+            );
+          }
+          document.getElementById("action").style.display = "none";
+          document.getElementById(
+            "eventText"
+          ).innerText = `The dragon noticed your gift...`;
+
+          await new Promise((resolve) => {
+            setTimeout(() => {
+              document.getElementById(
+                "eventText"
+              ).innerText = `The dragon ate your sheep and died!`;
+              locations[this.y][this.x].src = "smok.gif";
+              resolve();
+            }, 1000);
+          });
+
+          this.itemCarried = { inputName: "nothing" };
+        } else if (
+          this.itemCarried.name == "KNIFE" &&
+          this.y == 3 &&
+          this.x == 2 &&
+          !this.dragonAlive
+        ) {
+          this.itemCarried = displayItem(items, "DRAGONSKIN");
+          document.getElementById(
+            "eventText"
+          ).innerText = `You cut a piece of dragon's skin`;
+        } else if (
+          this.itemCarried.name == "DRAGONSKIN" &&
+          this.y == 4 &&
+          this.x == 6
+        ) {
+          this.itemCarried = displayItem(items, "SHOES");
+          document.getElementById(
+            "eventText"
+          ).innerText = `You used your tools to make shoes`;
+        } else if (
+          this.itemCarried.name == "SHOES" &&
+          this.y == 3 &&
+          this.x == 0
+        ) {
+          this.itemCarried = displayItem(items, "PRIZE");
+          document.getElementById(
+            "eventText"
+          ).innerText = `The King is impressed by your shoes`;
+          await this.endGame();
+          return;
+        } else {
+          document.getElementById(
+            "eventText"
+          ).innerText = `Nothing happened...`;
+        }
+      } else {
+        document.getElementById("eventText").innerText = `Nothing happened...`;
+      }
+    }
+
     //reszta akcji
     else if (input[0] == "VOCABULARY") {
       action = "V";
@@ -191,11 +517,35 @@ const game = {
       ).innerText = `Try another word or V for vocabulary`;
     }
 
+    //owca
+    if (this.sheepParts == 6) {
+      document.getElementById("action").style.display = "none";
+      await new Promise((resolve) => {
+        setTimeout(() => {
+          document.getElementById(
+            "eventText"
+          ).innerText = `Your fake sheep is full of poison and ready to be eaten by the dragon`;
+          resolve();
+        }, 1000);
+      });
+      this.itemCarried = displayItem(items, "SHEEP");
+      locations[this.y][this.x].item = [{ inputName: "nothing" }];
+      this.sheepParts = undefined;
+    }
+
     //poruszanie sie
     if (direction.shortcut != undefined) {
       possibleDirections.forEach((element) => {
         if (element == direction.shortcut) {
           canGo = true;
+        }
+        if (
+          this.dragonAlive &&
+          this.y == 3 &&
+          this.x == 1 &&
+          input[0] == "WEST"
+        ) {
+          canGo = false;
         }
       });
 
@@ -206,9 +556,30 @@ const game = {
           "eventText"
         ).innerText = `You are going ${input}`;
       } else {
-        document.getElementById(
-          "eventText"
-        ).innerText = `You can't go that way`;
+        if (
+          this.dragonAlive &&
+          this.y == 3 &&
+          this.x == 1 &&
+          input[0] == "WEST"
+        ) {
+          document.getElementById("action").style.display = "none";
+          document.getElementById(
+            "eventText"
+          ).innerText = `You can't go that way`;
+
+          await new Promise((resolve) => {
+            setTimeout(() => {
+              document.getElementById(
+                "eventText"
+              ).innerText = `The Dragon sleeps in cave`;
+              resolve();
+            }, 1000);
+          });
+        } else {
+          document.getElementById(
+            "eventText"
+          ).innerText = `You can't go that way`;
+        }
       }
     }
 
@@ -240,12 +611,12 @@ const game = {
       }
 
       document.getElementById("textarea").innerHTML = template;
-      let keyPress;
+      let keyDown;
       window.addEventListener(
-        "keypress",
-        (keyPress = () => {
+        "keydown",
+        (keyDown = () => {
           this.displayLocation();
-          window.removeEventListener("keypress", keyPress);
+          window.removeEventListener("keydown", keyDown);
         })
       );
       let keyUp;
@@ -264,6 +635,21 @@ const game = {
     setTimeout(() => {
       this.displayLocation();
     }, 1000);
+  },
+  async endGame() {
+    document.getElementById("action").style.display = "none";
+    let promisse = new Promise((resolve, reject) => {
+      try {
+        setTimeout(() => {
+          document.getElementById("game").style.display = "none";
+          document.getElementById("img").style.display = "block";
+          document.getElementById("img").src = "./img/win.jpg";
+          resolve();
+        }, 1000);
+      } catch (error) {
+        reject(error);
+      }
+    });
   },
 };
 

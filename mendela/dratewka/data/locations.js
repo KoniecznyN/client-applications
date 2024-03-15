@@ -201,7 +201,7 @@ export const locations = [
       "43.gif",
       "rgb(255,176,141)",
       ["N", "W"],
-      [{ inputName: "nothing" }]
+      [{ inputName: "nothing" }] // [{ inputName: "nothing" }]
     ),
     new Location(
       "You are by the water mill",
