@@ -34,9 +34,10 @@ export default {
     text-transform: uppercase;
     font-size: 20px;
     font-weight: 900;
+    padding: 5px;
 }
 
 .link:hover {
-    background-color: grey;
+    background-color: rgb(46, 46, 46);
 }
 </style>
