@@ -1,28 +1,27 @@
-import axios from "axios"
+import axios from "axios";
 
-const get = (url) => new Promise((resolve, reject) => {
+const get = (url) =>
+  new Promise((resolve, reject) => {
     setTimeout(() => {
-        axios.get(url)
-            .then(response => {
-                console.log("data", response.data);
-                resolve(response.data)
-            })
-            .catch(error => {
-                reject(error)
-            })
-
+      axios
+        .get(url)
+        .then((response) => {
+          console.log("data", response.data);
+          resolve(response.data);
+        })
+        .catch((error) => {
+          reject(error);
+        });
     }, 500 + Math.random() * 1000);
+  });
 
-})
-
-const getPromotions = () => get("http://localhost:3000/promotions")
-const getPromotion = () => get(`http://localhost:3000/promotions/${id}`)
-const getProduct = () => get(`http://localhost:3000/products/${id}`)
+const getPromotions = () => get("http://localhost:3000/promotions");
+const getPromotion = (id) => get(`http://localhost:3000/promotions/${id}`);
+const getProduct = (id) => get(`http://localhost:3000/products/${id}`);
 
 export {
-
-    getPromotions,
-    getPromotion,
-    getProduct
-    //tu będą pozostałe metody
-}
+  getPromotions,
+  getPromotion,
+  getProduct,
+  //tu będą pozostałe metody
+};

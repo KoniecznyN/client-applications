@@ -17,5 +17,11 @@ export default {
 </script>
 
 <style scoped>
-    
+    div {
+        width: 600px;
+        height: 100px;
+        border: 4px solid black;
+        text-align: center;
+        color: black;
+    }
 </style>
