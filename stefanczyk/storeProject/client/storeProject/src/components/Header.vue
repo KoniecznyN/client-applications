@@ -3,6 +3,7 @@
         <RouterLink to="/" exact class="link">Home</RouterLink>
         <RouterLink to="/about" class="link">About</RouterLink>
         <RouterLink to="/nnn" class="link">Not found</RouterLink>
+        <RouterLink to="/register" class="link">Register</RouterLink>
     </div>
 </template>
 
