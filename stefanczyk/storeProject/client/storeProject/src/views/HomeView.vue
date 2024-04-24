@@ -1,21 +1,21 @@
 <template>
-  <div>
-    <Header></Header>
-    <RouterLink v-for="promotion in promotionsList" :to="`/promotion/${promotion.id}`" :key="promotion.id">
+  <main>
+    <RouterLink
+      v-for="promotion in promotionsList"
+      :to="`/promotion/${promotion.id}`"
+      :key="promotion.id"
+    >
       <PromotionTile v-show="!isLoading" v-bind:promotion="promotion" />
     </RouterLink>
     <Loader v-show="isLoading"></Loader>
-    <Footer></Footer>
-  </div>
+  </main>
 </template>
 
 <script>
-import Header from "@/components/Header.vue"
-import Footer from "@/components/Footer.vue";
 import PromotionTile from "@/components/PromotionTile.vue";
-import Loader from "@/components/Loader.vue"
+import Loader from "@/components/Loader.vue";
 export default {
-  components: { Header, PromotionTile, Footer, Loader },
+  components: { PromotionTile, Loader },
   created() {
     this.$store.dispatch("FETCH_PROMOTIONS");
   },
@@ -23,11 +23,24 @@ export default {
     promotionsList() {
       return this.$store.getters.GET_PROMOTIONS_LIST;
     },
-    isLoading(){
+    isLoading() {
       return this.$store.getters.GET_PROMOTIONS_LOADING;
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
-<style scoped></style>
+<style scoped>
+main {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-direction: column;
+}
+
+#1 {
+  background-image: url("https://as1.ftcdn.net/v2/jpg/01/20/82/64/1000_F_120826407_VV1V7WOYTbrvLNgxDokcZqqQZMPp2wbO.jpg");
+}
+</style>
