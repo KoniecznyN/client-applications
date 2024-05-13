@@ -6,18 +6,13 @@
         v-bind:promotion="promotion"
       ></PromotionTile>
     </div>
-    <div class="items">
-      <div
-        class="item"
-        v-show="!isLoading"
-        v-for="item in promotionItems"
-        :key="item.id"
+    <div class="products">
+      <RouterLink
+        v-for="product in promotionProducts"
+        :to="`/products/${product.id}`"
       >
-        <img :src="`../assets/photos/${item.image}`" alt="" />
-        {{ item.name }}
-        {{ item.price }}
-        {{ item.category }}
-      </div>
+        <ProductTile :product="product" />
+      </RouterLink>
     </div>
     <Loader v-show="isLoading"></Loader>
   </main>
@@ -26,8 +21,9 @@
 <script>
 import Loader from "@/components/Loader.vue";
 import PromotionTile from "@/components/PromotionTile.vue";
+import ProductTile from "@/components/ProductTile.vue";
 export default {
-  components: { Loader, PromotionTile },
+  components: { Loader, PromotionTile, ProductTile },
   created() {
     this.$store.dispatch("FETCH_PROMOTION", this.$route.params.id);
   },
@@ -35,9 +31,9 @@ export default {
     promotion() {
       return this.$store.getters.GET_PROMOTION_OBJECT;
     },
-    promotionItems() {
-      const promotionItems = this.$store.getters.GET_PROMOTION_OBJECT;
-      return promotionItems.items;
+    promotionProducts() {
+      const promotionProducts = this.$store.getters.GET_PROMOTION_OBJECT;
+      return promotionProducts.items;
     },
     isLoading() {
       return this.$store.getters.GET_PROMOTION_LOADING;
@@ -56,19 +52,12 @@ main {
   flex-direction: column;
 }
 
-.items {
+.products {
   width: max-content;
   height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.item {
-  width: 100px;
-  height: 200px;
-  margin: 10px;
-  border: 1px solid black;
 }
 
 img {

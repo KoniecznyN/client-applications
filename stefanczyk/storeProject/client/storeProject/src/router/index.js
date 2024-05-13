@@ -6,6 +6,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "@/views/HomeView.vue";
 import AboutView from "@/views/AboutView.vue";
 import PromotionView from "@/views/PromotionView.vue";
+import ProductView from "@/views/ProductView.vue";
 import RegisterView from "@/views/RegisterView.vue";
 import LoginView from "@/views/LoginView.vue";
 
@@ -30,6 +31,11 @@ const router = createRouter({
       path: "/promotion/:id",
       name: "promotion",
       component: PromotionView,
+    },
+    {
+      path: "/products/:id",
+      name: "products",
+      component: ProductView,
     },
     {
       path: "/register",

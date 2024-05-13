@@ -37,7 +37,8 @@ export default {
       this.loading = true;
       e.preventDefault();
       if (this.password.length < 3) {
-        this.error = "hasło musi mieć ... znaków";
+        this.error = "hasło musi mieć co najmniej 3 znaki";
+        this.loading = false;
       } else {
         this.error = "";
         registerUser({ email: this.email, password: this.password })

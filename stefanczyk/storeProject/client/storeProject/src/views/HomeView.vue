@@ -39,8 +39,4 @@ main {
   align-items: center;
   flex-direction: column;
 }
-
-#1 {
-  background-image: url("https://as1.ftcdn.net/v2/jpg/01/20/82/64/1000_F_120826407_VV1V7WOYTbrvLNgxDokcZqqQZMPp2wbO.jpg");
-}
 </style>
