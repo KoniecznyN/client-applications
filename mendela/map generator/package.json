@@ -1,0 +1,17 @@
+{
+  "dependencies": {
+    "node": "^18.20.3"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.5"
+  },
+  "name": "map-generator",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
