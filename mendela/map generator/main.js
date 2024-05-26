@@ -9,6 +9,9 @@ var Tile = /** @class */ (function () {
         div.className = background;
         var text = document.createTextNode(content);
         div.append(text);
+        div.onclick = function () {
+            alert("x: ".concat(x, ", y:").concat(y));
+        };
         this.content = div;
     }
     return Tile;
@@ -20,7 +23,7 @@ var Grid = /** @class */ (function () {
             this.content[i] = [];
             for (var j = 0; j < cols; j++) {
                 this.content[i][j] = new Tile(j, i, "tile", "");
-                // `/*x: ${j}, y:${i}*/`
+                // `x: ${j}, y:${i}`
             }
         }
         this.name = name;

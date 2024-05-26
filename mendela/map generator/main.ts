@@ -17,6 +17,10 @@ class Tile{
         let text = document.createTextNode(content)
         div.append(text)
 
+        div.onclick = ()=>{
+            alert(`x: ${x}, y:${y}`)
+        }
+
         this.content = div
     }
 }
@@ -31,7 +35,7 @@ class Grid{
             this.content[i]=[]
            for (let j = 0; j < cols; j++) {
             this.content[i][j] = new Tile(j,i,"tile","")
-            // `/*x: ${j}, y:${i}*/`
+            // `x: ${j}, y:${i}`
            } 
         }
 
