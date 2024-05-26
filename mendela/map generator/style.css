@@ -1,0 +1,45 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+
+  font-family: monospace;
+}
+
+body {
+  background-color: black;
+  color: white;
+
+  display: flex;
+  justify-content: space-between;
+  /* align-items: center; */
+}
+
+body > * {
+  margin: 10px;
+}
+
+.row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* flex-direction: column; */
+}
+
+.tile {
+  /* background-color: white; */
+  border: 0.5px dotted white;
+  font-size: 15px;
+
+  width: 24px;
+  height: 24px;
+  margin: 1.5px;
+}
+
+.tile:hover {
+  border: 0.5px dotted red;
+}
+
+h1 {
+  color: white;
+}
