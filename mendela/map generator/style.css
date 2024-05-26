@@ -4,6 +4,7 @@
   box-sizing: border-box;
 
   font-family: monospace;
+  text-align: center;
 }
 
 body {
@@ -38,6 +39,14 @@ body > * {
 
 .tile:hover {
   border: 0.5px dotted red;
+}
+
+.item {
+  opacity: 50%;
+}
+
+.item:hover {
+  opacity: 100%;
 }
 
 h1 {

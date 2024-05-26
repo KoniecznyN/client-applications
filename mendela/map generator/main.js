@@ -1,29 +1,48 @@
 var firstGrid = document.getElementById("firstGrid");
 var secondGrid = document.getElementById("secondGrid");
+var Style = /** @class */ (function () {
+    function Style(position, half) {
+        this.image = "url('sprites.png')";
+        this.size = "768px 480px";
+        this.position = position;
+        this.half = half;
+    }
+    return Style;
+}());
 var Tile = /** @class */ (function () {
-    function Tile(x, y, background, content) {
+    function Tile(x, y, background, half) {
+        var _this = this;
         this.x = x;
         this.y = y;
         this.background = background;
         var div = document.createElement("div");
         div.className = background;
-        var text = document.createTextNode(content);
-        div.append(text);
-        div.onclick = function () {
-            alert("x: ".concat(x, ", y:").concat(y));
-        };
+        if (half == "items") {
+            div.className = "".concat(background, " item");
+            if (this.y > 20) {
+                this.x += 16;
+            }
+            this.style = new Style("-".concat(this.x * 24, "px -").concat(this.y * 24, "px"));
+            div.style.backgroundImage = this.style["image"];
+            div.style.backgroundSize = this.style["size"];
+            div.style.backgroundPosition = this.style["position"];
+        }
+        else {
+            div.onclick = function () {
+                alert("x: ".concat(_this.x, ", y:").concat(_this.y));
+            };
+        }
         this.content = div;
     }
     return Tile;
 }());
 var Grid = /** @class */ (function () {
-    function Grid(rows, cols, name) {
+    function Grid(rows, cols, name, half) {
         this.content = [];
         for (var i = 0; i < rows; i++) {
             this.content[i] = [];
             for (var j = 0; j < cols; j++) {
-                this.content[i][j] = new Tile(j, i, "tile", "");
-                // `x: ${j}, y:${i}`
+                this.content[i][j] = new Tile(j, i, "tile", half);
             }
         }
         this.name = name;
@@ -45,7 +64,7 @@ var Game = /** @class */ (function () {
     function Game() {
     }
     Game.prototype.startGame = function () {
-        var tablica1 = new Grid(32, 16, firstGrid);
+        var tablica1 = new Grid(40, 16, firstGrid, "items");
         var tablica2 = new Grid(48, 48, secondGrid);
         tablica1.converter();
         tablica2.converter();
