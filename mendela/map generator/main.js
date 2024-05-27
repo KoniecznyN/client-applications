@@ -1,5 +1,6 @@
 var firstGrid = document.getElementById("firstGrid");
 var secondGrid = document.getElementById("secondGrid");
+var pom;
 var Style = /** @class */ (function () {
     function Style(position, half) {
         this.image = "url('sprites.png')";
@@ -26,10 +27,22 @@ var Tile = /** @class */ (function () {
             div.style.backgroundImage = this.style["image"];
             div.style.backgroundSize = this.style["size"];
             div.style.backgroundPosition = this.style["position"];
+            div.onclick = function () {
+                if (pom != undefined) {
+                    pom["style"] = _this.style;
+                    console.log(pom);
+                }
+            };
         }
         else {
+            if (this.style != undefined) {
+                div.style.backgroundImage = this.style["image"];
+                div.style.backgroundSize = this.style["size"];
+                div.style.backgroundPosition = this.style["position"];
+            }
             div.onclick = function () {
-                alert("x: ".concat(_this.x, ", y:").concat(_this.y));
+                pom = _this;
+                console.log(pom);
             };
         }
         this.content = div;
@@ -49,6 +62,7 @@ var Grid = /** @class */ (function () {
     }
     Grid.prototype.converter = function () {
         var _this = this;
+        this.name.innerHTML = "";
         this.content.forEach(function (element) {
             var row = document.createElement("div");
             row.className = "row";
@@ -66,8 +80,13 @@ var Game = /** @class */ (function () {
     Game.prototype.startGame = function () {
         var tablica1 = new Grid(40, 16, firstGrid, "items");
         var tablica2 = new Grid(48, 48, secondGrid);
+        console.log(tablica2);
         tablica1.converter();
         tablica2.converter();
+        window.onclick = function () {
+            console.log("dupa");
+            tablica2.converter();
+        };
     };
     return Game;
 }());

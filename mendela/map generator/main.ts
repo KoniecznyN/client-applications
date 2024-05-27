@@ -1,5 +1,7 @@
 const firstGrid = document.getElementById("firstGrid") as HTMLBodyElement
 const secondGrid = document.getElementById("secondGrid") as HTMLBodyElement
+let pom: object | undefined
+
 
 class Style {
     image:string
@@ -19,7 +21,7 @@ class Tile {
     y:number
     background:string
     content:HTMLDivElement
-    style:object
+    style?:object
 
     constructor(x:number, y:number, background:string, half?: string){
         this.x = x
@@ -41,12 +43,26 @@ class Tile {
             div.style.backgroundSize = this.style["size"];
             div.style.backgroundPosition = this.style["position"]
 
-        } else {
             div.onclick = ()=>{
-                alert(`x: ${this.x}, y:${this.y}`)
+                if (pom != undefined) {
+                    pom["style"] = this.style
+                    console.log(pom);
+                }
+            }
+        } else {
+            
+            if (this.style != undefined) {
+                div.style.backgroundImage = this.style["image"];
+                div.style.backgroundSize = this.style["size"];
+                div.style.backgroundPosition = this.style["position"]
+            }
+
+            div.onclick = ()=>{
+                    pom = this
+                    console.log(pom);
+                    
             }
         }
-
 
         this.content = div
     }
@@ -66,9 +82,11 @@ class Grid{
         }
 
         this.name = name
+
     }
 
     converter(){
+        this.name.innerHTML = ""
         this.content.forEach(element => {
             const row = document.createElement("div")
             row.className = "row"
@@ -82,12 +100,20 @@ class Grid{
 
 class Game {
     startGame(){
-        let tablica1 = new Grid(40,16,firstGrid, "items")
-        let tablica2 = new Grid(48,48,secondGrid)
+        var tablica1 = new Grid(40,16,firstGrid, "items")
+        var tablica2 = new Grid(48,48,secondGrid)
+        console.log(tablica2);
         tablica1.converter()
         tablica2.converter()
+
+        window.onclick = ()=>{
+            console.log("dupa");
+            
+            tablica2.converter()
+        }
     }
 }
+
 
 const game = new Game();
 game.startGame()
