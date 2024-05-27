@@ -1,38 +1,38 @@
 const firstGrid = document.getElementById("firstGrid") as HTMLBodyElement
 const secondGrid = document.getElementById("secondGrid") as HTMLBodyElement
-let pom: object | undefined
 
+let helper: object | undefined
 
 class Style {
     image:string
     size:string
     position:string
-    half?:string
-    constructor(position:string, half?:string) {
+    flag?:string
+    constructor(position:string, flag?:string) {
         this.image = "url('sprites.png')"
         this.size = "768px 480px"
         this.position = position
-        this.half = half
+        this.flag = flag
     }
 }
 
 class Tile {
     x:number
     y:number
-    background:string
+    css:string
     content:HTMLDivElement
     style?:object
 
-    constructor(x:number, y:number, background:string, half?: string){
+    constructor(x:number, y:number, css:string, flag?: string){
         this.x = x
         this.y = y
-        this.background = background
+        this.css = css
         
         const div = document.createElement("div")
-        div.className = background
+        div.className = css
 
-        if (half == "items"){
-            div.className = `${background} item`
+        if (flag == "items"){
+            div.className = `${css} item`
             if (this.y > 20) {
                 this.x += 16
             }
@@ -43,24 +43,20 @@ class Tile {
             div.style.backgroundSize = this.style["size"];
             div.style.backgroundPosition = this.style["position"]
 
-            div.onclick = ()=>{
-                if (pom != undefined) {
-                    pom["style"] = this.style
-                    console.log(pom);
+            div.onclick = () => {
+                if (helper != undefined) {
+                    helper["style"] = this.style
+                    helper["content"].style.border = ".5px dotted white"
+                    helper = undefined
                 }
             }
         } else {
-            
-            if (this.style != undefined) {
-                div.style.backgroundImage = this.style["image"];
-                div.style.backgroundSize = this.style["size"];
-                div.style.backgroundPosition = this.style["position"]
-            }
-
-            div.onclick = ()=>{
-                    pom = this
-                    console.log(pom);
-                    
+            div.onclick = () => {
+                if (helper != undefined) {
+                    helper["content"].style.border = ".5px dotted white"
+                }
+                helper = this
+                helper["content"].style.border = ".5px dotted red"
             }
         }
 
@@ -71,29 +67,29 @@ class Tile {
 class Grid{
     rows:number
     cols:number
-    name:HTMLBodyElement
+    html:HTMLBodyElement
     content:Tile[][] = []
-    constructor(rows:number, cols:number, name:HTMLBodyElement, half?:string){
+    constructor(rows:number, cols:number, html:HTMLBodyElement, flag?:string){
         for (let i = 0; i < rows; i++) {
             this.content[i]=[]
            for (let j = 0; j < cols; j++) {
-            this.content[i][j] = new Tile(j,i,"tile", half)
+            this.content[i][j] = new Tile(j,i,"tile", flag)
            } 
         }
 
-        this.name = name
+        this.html = html
 
     }
 
     converter(){
-        this.name.innerHTML = ""
+        this.html.innerHTML = ""
         this.content.forEach(element => {
             const row = document.createElement("div")
             row.className = "row"
             element.forEach(element => {
                 row.append(element.content)
             });
-            this.name.append(row)
+            this.html.append(row)
         });
     }
 }
@@ -101,16 +97,28 @@ class Grid{
 class Game {
     startGame(){
         var tablica1 = new Grid(40,16,firstGrid, "items")
-        var tablica2 = new Grid(48,48,secondGrid)
+        var tablica2 = new Grid(40,40,secondGrid)
         console.log(tablica2);
         tablica1.converter()
         tablica2.converter()
 
         window.onclick = ()=>{
-            console.log("dupa");
-            
-            tablica2.converter()
+            this.refreshGrid(tablica2.content)
         }
+    }
+    refreshGrid(array:Tile[][]){
+        array.forEach(element => {
+            element.forEach(element => {
+                if (element.style != undefined) {
+                    element.content.style.backgroundImage = element.style["image"]
+                    element.content.style.backgroundSize = element.style["size"]
+                    element.content.style.backgroundPosition = element.style["position"]
+                    console.log(element);
+                    
+                }
+
+            });
+        });
     }
 }
 

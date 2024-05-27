@@ -1,25 +1,25 @@
 var firstGrid = document.getElementById("firstGrid");
 var secondGrid = document.getElementById("secondGrid");
-var pom;
+var helper;
 var Style = /** @class */ (function () {
-    function Style(position, half) {
+    function Style(position, flag) {
         this.image = "url('sprites.png')";
         this.size = "768px 480px";
         this.position = position;
-        this.half = half;
+        this.flag = flag;
     }
     return Style;
 }());
 var Tile = /** @class */ (function () {
-    function Tile(x, y, background, half) {
+    function Tile(x, y, css, flag) {
         var _this = this;
         this.x = x;
         this.y = y;
-        this.background = background;
+        this.css = css;
         var div = document.createElement("div");
-        div.className = background;
-        if (half == "items") {
-            div.className = "".concat(background, " item");
+        div.className = css;
+        if (flag == "items") {
+            div.className = "".concat(css, " item");
             if (this.y > 20) {
                 this.x += 16;
             }
@@ -28,21 +28,20 @@ var Tile = /** @class */ (function () {
             div.style.backgroundSize = this.style["size"];
             div.style.backgroundPosition = this.style["position"];
             div.onclick = function () {
-                if (pom != undefined) {
-                    pom["style"] = _this.style;
-                    console.log(pom);
+                if (helper != undefined) {
+                    helper["style"] = _this.style;
+                    helper["content"].style.border = ".5px dotted white";
+                    helper = undefined;
                 }
             };
         }
         else {
-            if (this.style != undefined) {
-                div.style.backgroundImage = this.style["image"];
-                div.style.backgroundSize = this.style["size"];
-                div.style.backgroundPosition = this.style["position"];
-            }
             div.onclick = function () {
-                pom = _this;
-                console.log(pom);
+                if (helper != undefined) {
+                    helper["content"].style.border = ".5px dotted white";
+                }
+                helper = _this;
+                helper["content"].style.border = ".5px dotted red";
             };
         }
         this.content = div;
@@ -50,26 +49,26 @@ var Tile = /** @class */ (function () {
     return Tile;
 }());
 var Grid = /** @class */ (function () {
-    function Grid(rows, cols, name, half) {
+    function Grid(rows, cols, html, flag) {
         this.content = [];
         for (var i = 0; i < rows; i++) {
             this.content[i] = [];
             for (var j = 0; j < cols; j++) {
-                this.content[i][j] = new Tile(j, i, "tile", half);
+                this.content[i][j] = new Tile(j, i, "tile", flag);
             }
         }
-        this.name = name;
+        this.html = html;
     }
     Grid.prototype.converter = function () {
         var _this = this;
-        this.name.innerHTML = "";
+        this.html.innerHTML = "";
         this.content.forEach(function (element) {
             var row = document.createElement("div");
             row.className = "row";
             element.forEach(function (element) {
                 row.append(element.content);
             });
-            _this.name.append(row);
+            _this.html.append(row);
         });
     };
     return Grid;
@@ -78,15 +77,27 @@ var Game = /** @class */ (function () {
     function Game() {
     }
     Game.prototype.startGame = function () {
+        var _this = this;
         var tablica1 = new Grid(40, 16, firstGrid, "items");
-        var tablica2 = new Grid(48, 48, secondGrid);
+        var tablica2 = new Grid(40, 40, secondGrid);
         console.log(tablica2);
         tablica1.converter();
         tablica2.converter();
         window.onclick = function () {
-            console.log("dupa");
-            tablica2.converter();
+            _this.refreshGrid(tablica2.content);
         };
+    };
+    Game.prototype.refreshGrid = function (array) {
+        array.forEach(function (element) {
+            element.forEach(function (element) {
+                if (element.style != undefined) {
+                    element.content.style.backgroundImage = element.style["image"];
+                    element.content.style.backgroundSize = element.style["size"];
+                    element.content.style.backgroundPosition = element.style["position"];
+                    console.log(element);
+                }
+            });
+        });
     };
     return Game;
 }());
