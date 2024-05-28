@@ -1,6 +1,13 @@
 var firstGrid = document.getElementById("firstGrid");
 var secondGrid = document.getElementById("secondGrid");
 var helper;
+var Static = /** @class */ (function () {
+    function Static() {
+        Static.tablica1 = new Grid(40, 16, firstGrid, "items");
+        Static.tablica2 = new Grid(48, 48, secondGrid);
+    }
+    return Static;
+}());
 var Style = /** @class */ (function () {
     function Style(position, flag) {
         this.image = "url('sprites.png')";
@@ -19,29 +26,27 @@ var Tile = /** @class */ (function () {
         var div = document.createElement("div");
         div.className = css;
         if (flag == "items") {
-            div.className = "".concat(css, " item");
+            div.className = css + " item";
             if (this.y > 20) {
                 this.x += 16;
             }
-            this.style = new Style("-".concat(this.x * 24, "px -").concat(this.y * 24, "px"));
+            this.style = new Style("-" + this.x * 24 + "px -" + this.y * 24 + "px");
             div.style.backgroundImage = this.style["image"];
             div.style.backgroundSize = this.style["size"];
             div.style.backgroundPosition = this.style["position"];
             div.onclick = function () {
                 if (helper != undefined) {
-                    helper["style"] = _this.style;
-                    helper["content"].style.border = ".5px dotted white";
+                    Static.tablica2.content[helper["y"]][helper["x"]].content.style.border = ".5px dotted white";
+                    Static.tablica2.content[helper["y"]][helper["x"]].style = _this.style;
+                    Static.tablica2.refreshGrid(Static.tablica2);
                     helper = undefined;
                 }
             };
         }
         else {
             div.onclick = function () {
-                if (helper != undefined) {
-                    helper["content"].style.border = ".5px dotted white";
-                }
-                helper = _this;
-                helper["content"].style.border = ".5px dotted red";
+                _this.content.style.border = ".5px dotted red";
+                helper = { x: _this.x, y: _this.y };
             };
         }
         this.content = div;
@@ -59,6 +64,17 @@ var Grid = /** @class */ (function () {
         }
         this.html = html;
     }
+    Grid.prototype.refreshGrid = function (grid) {
+        grid.content.forEach(function (element) {
+            element.forEach(function (element) {
+                if (element.style != undefined) {
+                    element.content.style.backgroundImage = element.style["image"];
+                    element.content.style.backgroundSize = element.style["size"];
+                    element.content.style.backgroundPosition = element.style["position"];
+                }
+            });
+        });
+    };
     Grid.prototype.converter = function () {
         var _this = this;
         this.html.innerHTML = "";
@@ -69,37 +85,43 @@ var Grid = /** @class */ (function () {
                 row.append(element.content);
             });
             _this.html.append(row);
+            //Game.tablica1
         });
     };
     return Grid;
 }());
 var Game = /** @class */ (function () {
     function Game() {
+        this.startGame();
     }
     Game.prototype.startGame = function () {
-        var _this = this;
-        var tablica1 = new Grid(40, 16, firstGrid, "items");
-        var tablica2 = new Grid(40, 40, secondGrid);
-        console.log(tablica2);
-        tablica1.converter();
-        tablica2.converter();
-        window.onclick = function () {
-            _this.refreshGrid(tablica2.content);
+        Static.tablica1.converter();
+        Static.tablica2.converter();
+        var kordy = {};
+        secondGrid.onmousedown = function (e) {
+            kordy = { x: e.clientX, y: e.clientY };
+            console.log(e);
+            console.log(e.clientX);
+            var div = document.createElement("div");
+            div.style.top = kordy.y.toString();
+            div.style.left = kordy.x.toString();
+            div.style.backgroundColor = "yellow";
+            div.style.opacity = "50%";
+            div.id = "selector";
+            secondGrid.append(div);
         };
-    };
-    Game.prototype.refreshGrid = function (array) {
-        array.forEach(function (element) {
-            element.forEach(function (element) {
-                if (element.style != undefined) {
-                    element.content.style.backgroundImage = element.style["image"];
-                    element.content.style.backgroundSize = element.style["size"];
-                    element.content.style.backgroundPosition = element.style["position"];
-                    console.log(element);
-                }
-            });
-        });
+        secondGrid.onmousemove = function (e) {
+            var div = document.getElementById("selector");
+            div.style.width = e.clientX - kordy.x + "px";
+            div.style.height = e.clientY - kordy.y + "px";
+            console.log(div.style.width);
+            console.log(div.style.height);
+        };
+        secondGrid.onmouseup = function (e) {
+            e.preventDefault();
+        };
     };
     return Game;
 }());
-var game = new Game();
-game.startGame();
+new Static();
+new Game();
